@@ -7,6 +7,7 @@ namespace Crypto
         static void Main(string[] args)
         {
             Console.WriteLine("siema!");
+            Console.WriteLine("test, rafal");
         }
     }
 }
