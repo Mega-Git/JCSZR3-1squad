@@ -8,6 +8,8 @@ namespace Crypto
         {
             Console.WriteLine("siema!");
             Console.WriteLine("test, rafal");
+            Console.WriteLine("Monika test added");
+
         }
     }
 }
