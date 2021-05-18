@@ -1,8 +1,12 @@
 ﻿using Crypto.Menu;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Linq;
+using System.IO;
+using Newtonsoft.Json;
 
-namespace Crypto
+namespace Crypto.Display.CryptoList
 {
     class Program
     {
@@ -11,25 +15,50 @@ namespace Crypto
             {
                 List<string> firstBoxes = new List<string>()
         {
-            "start",
-            "stop",
-            "exit"
+            "CRYPTOCURRENCY",
+            "FAVORITE",
+            "EXIT"
         };
+
+               
+
 
                 menuDraw menu = new menuDraw();
 
                 menu.firstMainMenu(firstBoxes);
 
                 Console.CursorVisible = false;
+
+                //ustawienie pod dany przycisk podstrony
                 while (true)
                 {
                     string selectMenu = menu.firstMainMenu(firstBoxes);
 
 
-                 if (selectMenu == "exit")
+                 if (selectMenu == "EXIT")
                     {
                         Environment.Exit(0);
                         
+                    }
+
+                 else if(selectMenu == "CRYPTOCURRENCY")
+                    {
+                        //tutaj dodajcie scieżke swojego pliku json
+                        var path = @"D:\CryptoApp\JCSZR3-1squad\Crypto\Crypto.Core\jsonFiles\waluty\Prices.json";
+                        string jsonFile = File.ReadAllText(path);
+
+
+                        var CryptoCurrency = JsonConvert.DeserializeObject<List<currencyList>>(jsonFile);
+
+
+                        foreach (var item in CryptoCurrency)
+                        {
+
+                            Console.WriteLine(item.currency + " " + item.prices[0]);
+
+
+                        }
+
                     }
                 }
 
@@ -39,9 +68,7 @@ namespace Crypto
 
 
 
-            Console.WriteLine("siema!");
-            Console.WriteLine("test, rafal");
-            Console.WriteLine("Monika test added");
+           
 
         }
     }
