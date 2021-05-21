@@ -43,8 +43,9 @@ namespace Crypto.Display.CryptoList
 
                     else if (selectMenu == "CRYPTOCURRENCY")
                     {
+                        Console.Clear();
                         //tutaj dodajcie scieżke swojego pliku json
-                        var path = @"D:\CryptoApp\JCSZR3-1squad\Crypto\Crypto.Core\jsonFiles\waluty\Prices.json";
+                        var path = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "Crypto.Core\\jsonfiles\\waluty\\Prices.json"); //@"D:\CryptoApp\JCSZR3-1squad\Crypto\Crypto.Core\jsonFiles\waluty\Prices.json";
                         string jsonFile = File.ReadAllText(path);
 
 
@@ -59,7 +60,7 @@ namespace Crypto.Display.CryptoList
 
                         }
                         Console.ReadKey();
-                        Console.Clear();
+                        break;
                     }
 
 
