@@ -58,7 +58,8 @@ namespace Crypto.Display.CryptoList
 
 
                         }
-
+                        Console.ReadKey();
+                        Console.Clear();
                     }
                 }
 
