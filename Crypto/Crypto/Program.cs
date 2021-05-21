@@ -35,13 +35,13 @@ namespace Crypto.Display.CryptoList
                     string selectMenu = menu.firstMainMenu(firstBoxes);
 
 
-                 if (selectMenu == "EXIT")
+                    if (selectMenu == "EXIT")
                     {
                         Environment.Exit(0);
-                        
+
                     }
 
-                 else if(selectMenu == "CRYPTOCURRENCY")
+                    else if (selectMenu == "CRYPTOCURRENCY")
                     {
                         //tutaj dodajcie scieżke swojego pliku json
                         var path = @"D:\CryptoApp\JCSZR3-1squad\Crypto\Crypto.Core\jsonFiles\waluty\Prices.json";
@@ -61,9 +61,9 @@ namespace Crypto.Display.CryptoList
                         Console.ReadKey();
                         Console.Clear();
                     }
+
+
                 }
-
-
 
             }
 
