@@ -9,19 +9,21 @@ using System.Threading.Tasks;
 
 namespace Crypto.Core.Models
 {
-   public static class jsonFile
+    public class JsonFile
     {
+        public static List<CurrencyTest> CryptoCurrencies { get; set; }
 
-        public static List<CurrencyTest> jsonRead(string source)
+        public static void InitializeCurrienciesListFromFile()
         {
-
-            var path =source;
+            var path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "Crypto.Core\\jsonfiles\\waluty\\Prices.json");
+            
             string jsonFile = File.ReadAllText(path);
 
-            return JsonConvert.DeserializeObject<List<CurrencyTest>>(jsonFile);
+            CryptoCurrencies = JsonConvert.DeserializeObject<List<CurrencyTest>>(jsonFile);
+        }
 
-            
-
+        public static void SaveListToFile()
+        {
 
         }
     }
