@@ -17,8 +17,8 @@ namespace Crypto.Display.CryptoList
 
         static void Main(string[] args)
         {
-            {             
-                var data = jsonFile.jsonRead(Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "Crypto.Core\\jsonfiles\\waluty\\Prices.json"));
+            {
+                JsonFile.InitializeCurrienciesListFromFile();
                 
                 List<string> firstBoxes = new List<string>()
         {
@@ -50,7 +50,7 @@ namespace Crypto.Display.CryptoList
                         Console.Clear();
                         //tutaj dodajcie scieżke swojego pliku json
 
-                        foreach (var item in data)
+                        foreach (var item in JsonFile.CryptoCurrencies)
                         {
 
                             Console.WriteLine(item.Currency + " " + item.Prices[0]);
