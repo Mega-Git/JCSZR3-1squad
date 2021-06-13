@@ -49,6 +49,7 @@ namespace Crypto.Menu
             }
             else
             {
+                Console.Clear();
                 return "";
             }
 
