@@ -5,17 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crypto.Display.CryptoList
+namespace Crypto.Core.CryptoList
 {
-    public class currencyList
+    public class CurrencyTest
     {
-
-
-        public string currency { get; set; }
-        public string[] prices { get; set; }
-
-
-
-
+        public string Currency { get; set; }
+        public string[] Prices { get; set; }
     }
 }
