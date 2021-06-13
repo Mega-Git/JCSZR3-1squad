@@ -11,5 +11,6 @@ namespace Crypto.Core.CryptoList
     {
         public string Currency { get; set; }
         public string[] Prices { get; set; }
+        public string[] Timestamps { get; set; }
     }
 }
