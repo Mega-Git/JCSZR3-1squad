@@ -9,15 +9,15 @@ public class OutputCore
 	
 	public static string DisplayValueFromName(string name)
     {
-		var NewName = Search.SearchByName(name);
-        if (NewName == "No match")
+		var newName = Search.SearchByName(name);
+        if (newName == "No match")
         {
-            return NewName;
+            return newName;
         }
         else
         {
-		var Value = JsonFile.CryptoCurrencies.Find(x => x.Currency.Contains(NewName)).Prices[0];
-		return $"{NewName} {Value}";
+		    var value = JsonFile.CryptoCurrencies.Find(x => x.Currency.Contains(newName)).Prices[0];
+		    return $"{newName} {value}";
         }
     }
 	public static void DisplayAllCurrencies()
@@ -26,70 +26,57 @@ public class OutputCore
     }
 	public static void DisplayValueFromNameInTimePeriod(string name)
     {
-        var NewName = Search.SearchByName(name);
-        if (NewName == "No match")
+        var newName = Search.SearchByName(name);
+        if (newName == "No match")
         {
-            Console.WriteLine(NewName);
+            Console.WriteLine(newName);
         }
         else
         {
-		    var Value = JsonFile.CryptoCurrencies.Find(x => x.Currency.Contains(NewName)).Prices[0];
-            DateTime StartingDate = DateTime.Parse(GetStartingDate());
-            DateTime EndingDate = DateTime.Parse(GetEndingDate());
-            //List<DateTime> Dates = Enumerable.Range(0, int.MaxValue).Select(index => new DateTime(StartingDate.AddDays(index))).TakeWhile(date => date <= EndingDate).ToList();
-            var UserDates = new List<DateTime>();
-            for (var date = StartingDate; date <= EndingDate; date = date.AddDays(1))
+            DateTime startingDate = DateTime.Parse(GetStartingDate()).AddHours(2);
+            DateTime endingDate = DateTime.Parse(GetEndingDate()).AddHours(2);
+            var userDates = new List<DateTime>();
+            for (var date = startingDate; date <= endingDate; date = date.AddDays(1))
             {
-                UserDates.Add(date);
+                userDates.Add(date);
             }
-            //var Dates = Enumerable.Range(0, 1 + EndingDate.Subtract(StartingDate).Days).Select(offset => StartingDate.AddDays(offset)).ToList();
-            var CurrencyDates = JsonFile.CryptoCurrencies.Where(x => x.Currency.Contains(NewName)).SelectMany(x => x.Timestamps).ToList();
-            //CurrencyDates = CurrencyDates.Select(x => DateTime.Parse(x));
-            int i = 0;
-            var OverlappingDates = CurrencyDates.Select(x => x).Intersect(UserDates.Select(y => y.ToString())).ToList();
-            //foreach (var item in UserDates)
-            //{
-            //    var CurrentDate = CurrencyDates.Where(x => UserDates.Contains(DateTime.Parse(x)));
-            //    if (CurrentDate != null)
-            //    {
-            //        OverlappingDates.Add(CurrentDate.ToString());
-            //        i++;
-            //    }
-            //}
-            if (OverlappingDates.Count() == 0)
+            var currencyDates = JsonFile.CryptoCurrencies.Where(x => x.Currency.Contains(newName)).SelectMany(x => x.Timestamps).ToList();
+            List<DateTime> currencyDatesFix = currencyDates.Select(x => DateTime.Parse(x)).ToList();
+            var overlappingDates = currencyDatesFix.Select(x => x).Intersect(userDates.Select(y => y)).ToList();
+            if (overlappingDates.Count == 0)
             {
                 Console.WriteLine("No matches");
             }
             else
             {
-                OverlappingDates.ForEach(x => Console.WriteLine(x));
+                var datesWithValues = JsonFile.CryptoCurrencies.Where(x => x.Currency.Contains(newName)).Select(x => new {x.Prices, x.Timestamps}).ToList();
+                overlappingDates.ForEach(x => Console.WriteLine($"{x}"));
             }
         }
-        //Search.CurrencyList.FindAll(x => x.Value >= StartingDate && x.Value <= EndingDate) ????????
     }
     public static string GetStartingDate()
     {
         Console.WriteLine("Input starting date: ");
         Console.Write("Day: ");
-        string StartingDay = Console.ReadLine();
+        string startingDay = Console.ReadLine();
         Console.Write("Month: ");
-        string StartingMonth = Console.ReadLine();
+        string startingMonth = Console.ReadLine();
         Console.Write("Year: ");
-        string StartingYear = Console.ReadLine();
-        string StartingDate = $"{StartingYear}-{StartingMonth}-{StartingDay}";
-        return StartingDate;
+        string startingYear = Console.ReadLine();
+        string startingDate = $"{startingYear}-{startingMonth}-{startingDay}";
+        return startingDate;
     }
     public static string GetEndingDate()
     {
         Console.WriteLine("Input ending date: ");
         Console.Write("Day: ");
-        string EndingDay = Console.ReadLine();
+        string endingDay = Console.ReadLine();
         Console.Write("Month: ");
-        string EndingMonth = Console.ReadLine();
+        string endingMonth = Console.ReadLine();
         Console.Write("Year: ");
-        string EndingYear = Console.ReadLine();
-        string EndingDate = $"{EndingYear}-{EndingMonth}-{EndingDay}";
-        return EndingDate;
+        string endingYear = Console.ReadLine();
+        string endingDate = $"{endingYear}-{endingMonth}-{endingDay}";
+        return endingDate;
     }
 
     //public static string GetStringFromUser(string message)
@@ -107,15 +94,15 @@ public class OutputCore
     //    return userString;
     //}
 
-    public void DisplayCurrencyWithHighestValueLoss()
+    public static void DisplayCurrencyWithHighestValueLoss()
     {
-        //Search.CurrencyList.Find(x => x.ValueLoss.Max()); ????
+        
     }
 	public static void DisplayValueFromNameButton()
     {
 		Console.WriteLine("Input currency name: ");
-        string CurrencyName = Console.ReadLine();
-        Console.WriteLine(DisplayValueFromName(CurrencyName));
+        string currencyName = Console.ReadLine().ToUpper();
+        Console.WriteLine(DisplayValueFromName(currencyName));
     }
 	public static void DisplayAllCurrenciesButton()
     {
@@ -125,10 +112,10 @@ public class OutputCore
     public static void DisplayValueFromNameInTimePeriodButton()
     {
         Console.WriteLine("Input currency name: ");
-        string CurrencyName = Console.ReadLine();
-        DisplayValueFromNameInTimePeriod(CurrencyName);
+        string currencyName = Console.ReadLine().ToUpper();
+        DisplayValueFromNameInTimePeriod(currencyName);
     }
-    public void DisplayCurrencyWithHighestValueLossButton()
+    public static void DisplayCurrencyWithHighestValueLossButton()
     {
         Console.WriteLine("Currency with highest value loss: ");
         DisplayCurrencyWithHighestValueLoss();
