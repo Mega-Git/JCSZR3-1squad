@@ -48,7 +48,20 @@ public class OutputCore
             else
             {
                 var datesWithValues = JsonFile.CryptoCurrencies.Where(x => x.Currency.Contains(newName)).Select(x => new {x.Prices, x.Timestamps}).ToList();
-                overlappingDates.ForEach(x => Console.WriteLine($"{x}"));
+                var datesWithValuesTimestamps = datesWithValues.SelectMany(x => x.Timestamps).ToList();
+                var datesWithValuesTimestampsFix = datesWithValuesTimestamps.Select(x => DateTime.Parse(x)).ToList();
+                for (int i = 0; i < overlappingDates.Count; i++)
+                {
+                    for (int o = 0; o < datesWithValuesTimestamps.Count; o++)
+                    {
+                        var dateFind = datesWithValuesTimestampsFix[o].Equals(overlappingDates[i]);
+                        if (dateFind)
+                        {
+                            Console.WriteLine($"Time: {datesWithValues[0].Timestamps[o]} Price: {datesWithValues[0].Prices[o]} ");
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
