@@ -5,8 +5,6 @@ using System.Linq;
 
 public class OutputCore
 {
-        //var searchedValue = OutputCore.GetStringFromUser("Podaj nazwę do wyszukania");
-	
 	public static string DisplayValueFromName(string name)
     {
 		var newName = Search.SearchByName(name);
@@ -79,30 +77,24 @@ public class OutputCore
         return endingDate;
     }
 
-    //public static string GetStringFromUser(string message)
-    //{
-    //    Console.Clear();
-    //    Console.WriteLine(message);
+    public static string GetCurrencyName()
+    {
+        Console.WriteLine("Input currency name: ");
+        var currencyName = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(currencyName))
+        {
+            Console.WriteLine("Input a valid name: ");
+        }
 
-    //    var userString = Console.ReadLine();
-
-    //    if (string.IsNullOrWhiteSpace(userString))
-    //    {
-    //        Console.WriteLine("please input value");
-    //    }
-
-    //    return userString;
-    //}
-
+        return currencyName.ToUpper();
+    }
     public static void DisplayCurrencyWithHighestValueLoss()
     {
         
     }
 	public static void DisplayValueFromNameButton()
     {
-		Console.WriteLine("Input currency name: ");
-        string currencyName = Console.ReadLine().ToUpper();
-        Console.WriteLine(DisplayValueFromName(currencyName));
+        Console.WriteLine(DisplayValueFromName(GetCurrencyName()));
     }
 	public static void DisplayAllCurrenciesButton()
     {
@@ -111,9 +103,7 @@ public class OutputCore
     }
     public static void DisplayValueFromNameInTimePeriodButton()
     {
-        Console.WriteLine("Input currency name: ");
-        string currencyName = Console.ReadLine().ToUpper();
-        DisplayValueFromNameInTimePeriod(currencyName);
+        DisplayValueFromNameInTimePeriod(GetCurrencyName());
     }
     public static void DisplayCurrencyWithHighestValueLossButton()
     {
