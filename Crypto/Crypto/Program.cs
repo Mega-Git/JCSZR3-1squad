@@ -23,6 +23,7 @@ namespace Crypto.Display.CryptoList
                 List<string> firstBoxes = new List<string>()
         {
             "CRYPTOCURRENCY",
+            "ADD",
             "FAVORITE",
             "EXIT"
         };
@@ -57,6 +58,13 @@ namespace Crypto.Display.CryptoList
 
 
                         }
+                        Console.ReadKey();
+                        break;
+                    }
+                    else if (selectMenu == "ADD")
+                    {
+                        Console.Clear();
+                        InputCore.AddCurrencyName();
                         Console.ReadKey();
                         break;
                     }
