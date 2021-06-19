@@ -38,7 +38,9 @@ namespace Crypto.Display.CryptoList
                 //ustawienie pod dany przycisk podstrony
                 while (true)
                 {
+                    Console.Clear();
                     string selectMenu = menu.firstMainMenu(firstBoxes);
+                    Console.Clear();
 
 
                     if (selectMenu == "EXIT")
@@ -49,32 +51,18 @@ namespace Crypto.Display.CryptoList
 
                     else if (selectMenu == "CRYPTOCURRENCY")
                     {
-                        Console.Clear();
-                        //tutaj dodajcie scieżke swojego pliku json
                         OutputCore.DisplayValueFromNameButton();
-                        //foreach (var item in JsonFile.CryptoCurrencies)
-                        //{
-
-                        //    Console.WriteLine(item.Currency + " " + item.Prices[0]);
-
-
-                        //}
                         Console.ReadKey();
-                        break;
                     }
                     else if (selectMenu == "ALL")
                     {
-                        Console.Clear();
                         OutputCore.DisplayAllCurrenciesButton();
                         Console.ReadKey();
-                        break;
                     }
                     else if (selectMenu == "TIME")
                     {
-                        Console.Clear();
                         OutputCore.DisplayValueFromNameInTimePeriodButton();
                         Console.ReadKey();
-                        break;
                     }
 
 
