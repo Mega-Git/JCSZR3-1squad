@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Crypto.Core.Models;
 
 namespace Crypto.Web
 {
@@ -13,6 +14,7 @@ namespace Crypto.Web
     {
         public static void Main(string[] args)
         {
+            JsonFile.InitializeCurrienciesListFromFile();
             CreateHostBuilder(args).Build().Run();
         }
 

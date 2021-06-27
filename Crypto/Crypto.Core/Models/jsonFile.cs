@@ -15,7 +15,7 @@ namespace Crypto.Core.Models
 
         public static void InitializeCurrienciesListFromFile()
         {
-            var path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "Crypto.Core\\jsonfiles\\waluty\\Prices.json");
+            var path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Crypto.Core\\jsonfiles\\waluty\\Prices.json");
             
             string jsonFile = File.ReadAllText(path);
 
