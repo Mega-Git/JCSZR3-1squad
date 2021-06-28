@@ -1,12 +1,24 @@
-﻿@model Crypto.Core.Models.JsonFile
+﻿@using Crypto.Core.Models
+@model Crypto.Core.Models.JsonFile
+
+@{var index = 0;}
 
 <table class="table">
     <thead>
-    <tr>
-        @OutputCore.DisplayAllCurrencies();
-    </tr>
+        <tr>
+            <th class="sticky-top">#</th>
+            <th class="sticky-top">Name</th>
+            <th class="sticky-top">Price</th>
+        </tr>
     </thead>
     <tbody>
-
+    @foreach (var item in JsonFile.CryptoCurrencies)
+    {
+        <tr>
+            <td>@(++index)</td>
+            <td>@item.Currency</td>
+            <td>@item.Prices.First()</td>
+        </tr>
+    }
     </tbody>
 </table>
