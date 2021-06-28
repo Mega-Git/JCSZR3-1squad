@@ -29,11 +29,14 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+<div>
+    @Html.Partial("_CurrencyTable")
+</div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
