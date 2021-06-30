@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Crypto.Core.Models;
 
 namespace Crypto.Web.Controllers
 {
@@ -18,10 +19,10 @@ namespace Crypto.Web.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
 
         public IActionResult Privacy()
         {
@@ -32,6 +33,32 @@ namespace Crypto.Web.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<IActionResult> Index(string sortOrder)
+        {
+            ViewData["NameSort"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["PriceSort"] = sortOrder == "price" ? "price_desc" : "price";
+
+            var currencies = JsonFile.CryptoCurrencies.Select(x => x);
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    currencies = currencies.OrderByDescending(x => x.Currency);
+                    break;
+                case "price":
+                    currencies = currencies.OrderBy(x => x.Prices.Last());
+                    break;
+                case "price_desc":
+                    currencies = currencies.OrderByDescending(x => x.Prices.Last());
+                    break;
+                default:
+                    currencies = currencies.OrderBy(x => x.Currency);
+                    break;
+            }
+
+            return View(currencies);
         }
     }
 }
