@@ -1,5 +1,4 @@
-﻿@using Crypto.Core.Models
-@model IEnumerable<Crypto.Core.Models.CurrencyTest>
+﻿@model IEnumerable<Crypto.Core.Models.CurrencyTest>
 
 
 @{var index = 0;}
@@ -8,9 +7,15 @@
     <table class="table">
         <thead>
             <tr>
-                <th class="sticky-top">#</th>
-                <th class="sticky-top"><a asp-action="Index" asp-route-sortOrder="@ViewData["NameSort"]">Name</a></th>
-                <th class="sticky-top"><a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSort"]">Price</a></th>
+                <th class="sticky-top">
+                    <a>#</a>
+                </th>
+                <th class="sticky-top">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSort"]">Name</a>
+                </th>
+                <th class="sticky-top">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSort"]">Price</a>
+                </th>
             </tr>
         </thead>
         <tbody>
