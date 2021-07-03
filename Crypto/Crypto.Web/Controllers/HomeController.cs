@@ -19,11 +19,6 @@ namespace Crypto.Web.Controllers
             _logger = logger;
         }
 
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public IActionResult Privacy()
         {
             return View();
@@ -37,28 +32,36 @@ namespace Crypto.Web.Controllers
 
         public IActionResult Index(string sortOrder)
         {
-            ViewData["NameSort"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["PriceSort"] = sortOrder == "price" ? "price_desc" : "price";
+            var nameSort = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            var priceSort = sortOrder == "price" ? "price_desc" : "price";
 
-            var currencies = JsonFile.CryptoCurrencies.Select(x => x);
+            var currencyList = JsonFile.CryptoCurrencies.Select(x => x);
+
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    currencies = currencies.OrderByDescending(x => x.Currency);
+                    currencyList = currencyList.OrderByDescending(x => x.Currency);
                     break;
                 case "price":
-                    currencies = currencies.OrderBy(x => x.Prices.Last());
+                    currencyList = currencyList.OrderBy(x => x.Prices.Last());
                     break;
                 case "price_desc":
-                    currencies = currencies.OrderByDescending(x => x.Prices.Last());
+                    currencyList = currencyList.OrderByDescending(x => x.Prices.Last());
                     break;
                 default:
-                    currencies = currencies.OrderBy(x => x.Currency);
+                    currencyList = currencyList.OrderBy(x => x.Currency);
                     break;
             }
 
-            return View(currencies);
+            var model = new CurrencyListModel
+            {
+                NameSort = nameSort,
+                PriceSort = priceSort,
+                CurrencyList = currencyList
+            };
+
+            return View(model);
         }
     }
 }

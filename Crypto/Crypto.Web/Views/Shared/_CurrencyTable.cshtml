@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Crypto.Core.Models.CurrencyTest>
+﻿@model CurrencyListModel
 
 
 @{var index = 0;}
@@ -11,15 +11,17 @@
                     <a>#</a>
                 </th>
                 <th class="sticky-top">
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSort"]">Name</a>
+                    @*<a asp-action="Index" asp-route-sortOrder="@ViewData["NameSort"]">Name</a>*@
+                    <a asp-action="Index" asp-route-sortOrder="@Model.NameSort">Name</a>
                 </th>
                 <th class="sticky-top">
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSort"]">Price</a>
+                    @*<a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSort"]">Price</a>*@
+                    <a asp-action="Index" asp-route-sortOrder="@Model.PriceSort">Price</a>
                 </th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.CurrencyList)
             {
                 <tr>
                     <td>@(++index)</td>
