@@ -1,5 +1,4 @@
-﻿@using Crypto.Core.Models
-@model Crypto.Core.Models.JsonFile
+﻿@model CurrencyListModel
 
 
 @{var index = 0;}
@@ -8,18 +7,26 @@
     <table class="table">
         <thead>
             <tr>
-                <th class="sticky-top">#</th>
-                <th class="sticky-top">Name</th>
-                <th class="sticky-top">Price</th>
+                <th class="sticky-top">
+                    <a>#</a>
+                </th>
+                <th class="sticky-top">
+                    @*<a asp-action="Index" asp-route-sortOrder="@ViewData["NameSort"]">Name</a>*@
+                    <a asp-action="Index" asp-route-sortOrder="@Model.NameSort">Name</a>
+                </th>
+                <th class="sticky-top">
+                    @*<a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSort"]">Price</a>*@
+                    <a asp-action="Index" asp-route-sortOrder="@Model.PriceSort">Price</a>
+                </th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in JsonFile.CryptoCurrencies)
+            @foreach (var item in Model.CurrencyList)
             {
                 <tr>
                     <td>@(++index)</td>
                     <td>@item.Currency</td>
-                    <td>@item.Prices.First()</td>
+                    <td>@item.Prices.Last()</td>
                 </tr>
             }
         </tbody>
