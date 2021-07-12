@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Crypto.Core.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Crypto.Web.Controllers
 {
@@ -32,7 +33,43 @@ namespace Crypto.Web.Controllers
 
         public IActionResult Index(string sortOrder, decimal? minValue, decimal? maxValue)
         {
-            var nameSort = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            if(sortOrder != null)
+            {
+                HttpContext.Session.SetString("sortOrder", sortOrder);
+            }
+            else
+            {   
+                if(HttpContext.Session.GetString("sortOrder") != null)
+                {
+                    sortOrder = HttpContext.Session.GetString("sortOrder");
+                }
+            }
+
+            if(minValue != null)
+            {
+                HttpContext.Session.SetInt32("minValue", (int)minValue);
+            }
+            else
+            {   
+                if(HttpContext.Session.GetInt32("minValue") != null)
+                {
+                    minValue = HttpContext.Session.GetInt32("minValue");
+                }
+            }
+
+            if(maxValue != null)
+            {
+                HttpContext.Session.SetInt32("maxValue", (int)maxValue);
+            }
+            else
+            {   
+                if(HttpContext.Session.GetInt32("maxValue") != null)
+                {
+                    maxValue = HttpContext.Session.GetInt32("maxValue");
+                }
+            }
+
+            var nameSort = string.IsNullOrEmpty(sortOrder) || sortOrder == "name" ? "name_desc" : "name";
             var priceSort = sortOrder == "price" ? "price_desc" : "price";
 
             var currencyList = JsonFile.CryptoCurrencies.Select(x => x);
@@ -76,6 +113,8 @@ namespace Crypto.Web.Controllers
             {
                 NameSort = nameSort,
                 PriceSort = priceSort,
+                MinPrice = minValue,
+                MaxPrice = maxValue,
                 CurrencyList = currencyList
             };
 
