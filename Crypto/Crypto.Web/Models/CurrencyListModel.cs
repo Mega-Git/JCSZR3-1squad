@@ -10,6 +10,8 @@ namespace Crypto.Web.Models
     {
         public string NameSort { get; set; }
         public string PriceSort { get; set; }
+        public decimal? MinPrice { get; set; }
+        public decimal? MaxPrice { get; set; }
         public IEnumerable<CurrencyTest> CurrencyList { get; set; }
     }
 }

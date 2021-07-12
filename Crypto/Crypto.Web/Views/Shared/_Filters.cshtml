@@ -1,0 +1,26 @@
+﻿@model CurrencyListModel
+
+<form asp-action="Index" asp-route-minValue="@Model.MinPrice" asp-route-maxValue="@Model.MaxPrice">
+    <div class="card">
+        <article class="card-group">
+            <header class="card-header">
+                <h6>Price range</h6>
+            </header>
+            <div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Min</label>
+                            <input type="number" class="form-control" name="minValue" min="0" runat="server" oninput="this.value = Math.abs(this.value)" placeholder="$0">
+                        </div>
+                        <div class="form-group col-md-6 text-right">
+                            <label>Max</label>
+                            <input type="number" class="form-control" name="maxValue" min="0" runat="server" oninput="this.value = Math.abs(this.value)" placeholder="$1,0000">
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" name="PriceFilter" value="Filter" />
+            </div>
+        </article>
+    </div>
+</form>

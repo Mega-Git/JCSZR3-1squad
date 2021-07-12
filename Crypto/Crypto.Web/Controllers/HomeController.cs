@@ -30,13 +30,31 @@ namespace Crypto.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Index(string sortOrder)
+        public IActionResult Index(string sortOrder, decimal? minValue, decimal? maxValue)
         {
             var nameSort = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             var priceSort = sortOrder == "price" ? "price_desc" : "price";
 
             var currencyList = JsonFile.CryptoCurrencies.Select(x => x);
 
+            var minPrice = minValue;
+            var maxPrice = maxValue;
+
+            if (minPrice != null || maxPrice != null)
+            {
+                if (minPrice > 0 && maxPrice > minPrice)
+                {
+                    currencyList = currencyList.Where(x => Convert.ToDecimal(x.Prices.Last()) > minPrice && Convert.ToDecimal(x.Prices.Last()) < maxPrice);
+                }
+                else if (minPrice > 0 && maxPrice == null)
+                {
+                    currencyList = currencyList.Where(x => Convert.ToDecimal(x.Prices.Last()) > minPrice);
+                }
+                else if (minPrice == null && maxPrice > 0)
+                {
+                    currencyList = currencyList.Where(x => Convert.ToDecimal(x.Prices.Last()) < maxPrice);
+                }
+            }
 
             switch (sortOrder)
             {
