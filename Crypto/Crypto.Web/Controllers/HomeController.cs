@@ -45,13 +45,22 @@ namespace Crypto.Web.Controllers
                 }
             }
 
+            if (maxValue < minValue)
+            {
+                maxValue = minValue;
+            }
+
             if(minValue != null)
             {
                 HttpContext.Session.SetInt32("minValue", (int)minValue);
+                if (minValue == 0)
+                {
+                    minValue = null;
+                }
             }
             else
             {   
-                if(HttpContext.Session.GetInt32("minValue") != null)
+                if(HttpContext.Session.GetInt32("minValue") > 0)
                 {
                     minValue = HttpContext.Session.GetInt32("minValue");
                 }
@@ -60,10 +69,14 @@ namespace Crypto.Web.Controllers
             if(maxValue != null)
             {
                 HttpContext.Session.SetInt32("maxValue", (int)maxValue);
+                if (maxValue == 0)
+                {
+                    maxValue = null;
+                }
             }
             else
             {   
-                if(HttpContext.Session.GetInt32("maxValue") != null)
+                if(HttpContext.Session.GetInt32("maxValue") > 0)
                 {
                     maxValue = HttpContext.Session.GetInt32("maxValue");
                 }
@@ -79,7 +92,7 @@ namespace Crypto.Web.Controllers
 
             if (minPrice != null || maxPrice != null)
             {
-                if (minPrice > 0 && maxPrice > minPrice)
+                if (minPrice > 0 && maxPrice >= minPrice)
                 {
                     currencyList = currencyList.Where(x => Convert.ToDecimal(x.Prices.Last()) > minPrice && Convert.ToDecimal(x.Prices.Last()) < maxPrice);
                 }
