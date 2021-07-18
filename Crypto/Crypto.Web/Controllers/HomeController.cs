@@ -13,6 +13,9 @@ namespace Crypto.Web.Controllers
 {
     public class HomeController : Controller
     {
+        public const string Descending = "desc";
+        public const string Name = "name";
+        public const string Price = "price";
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -31,105 +34,51 @@ namespace Crypto.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Index(string sortOrder, decimal? minValue, decimal? maxValue)
+        public IActionResult Index(string sortColumn, decimal? minValue, decimal? maxValue, string sortDir = "")
         {
-            if(sortOrder != null)
-            {
-                HttpContext.Session.SetString("sortOrder", sortOrder);
-            }
-            else
-            {   
-                if(HttpContext.Session.GetString("sortOrder") != null)
-                {
-                    sortOrder = HttpContext.Session.GetString("sortOrder");
-                }
-            }
-
-            if (maxValue < minValue)
-            {
-                maxValue = minValue;
-            }
-
-            if(minValue != null)
-            {
-                HttpContext.Session.SetInt32("minValue", (int)minValue);
-                if (minValue == 0)
-                {
-                    minValue = null;
-                }
-            }
-            else
-            {   
-                if(HttpContext.Session.GetInt32("minValue") > 0)
-                {
-                    minValue = HttpContext.Session.GetInt32("minValue");
-                }
-            }
-
-            if(maxValue != null)
-            {
-                HttpContext.Session.SetInt32("maxValue", (int)maxValue);
-                if (maxValue == 0)
-                {
-                    maxValue = null;
-                }
-            }
-            else
-            {   
-                if(HttpContext.Session.GetInt32("maxValue") > 0)
-                {
-                    maxValue = HttpContext.Session.GetInt32("maxValue");
-                }
-            }
-
-            var nameSort = string.IsNullOrEmpty(sortOrder) || sortOrder == "name" ? "name_desc" : "name";
-            var priceSort = sortOrder == "price" ? "price_desc" : "price";
-
+            
             var currencyList = JsonFile.CryptoCurrencies.Select(x => x);
-
-            var minPrice = minValue;
-            var maxPrice = maxValue;
-
-            if (minPrice != null || maxPrice != null)
+            var model = new CurrencyListModel
             {
-                if (minPrice > 0 && maxPrice >= minPrice)
+                MinPriceIsValid = minValue < maxValue || minValue == null || maxValue == null
+            };
+
+
+            if (minValue != null || maxValue != null)
+            {
+                if (minValue >= 0 && maxValue >= minValue)
                 {
-                    currencyList = currencyList.Where(x => Convert.ToDecimal(x.Prices.Last()) > minPrice && Convert.ToDecimal(x.Prices.Last()) < maxPrice);
+                    currencyList = currencyList.Where(x => Convert.ToDecimal(x.Prices.Last()) > minValue && Convert.ToDecimal(x.Prices.Last()) < maxValue);
                 }
-                else if (minPrice > 0 && maxPrice == null)
+                else if (minValue >= 0 && maxValue == null)
                 {
-                    currencyList = currencyList.Where(x => Convert.ToDecimal(x.Prices.Last()) > minPrice);
+                    currencyList = currencyList.Where(x => Convert.ToDecimal(x.Prices.Last()) > minValue);
                 }
-                else if (minPrice == null && maxPrice > 0)
+                else if (minValue == null && maxValue > 0)
                 {
-                    currencyList = currencyList.Where(x => Convert.ToDecimal(x.Prices.Last()) < maxPrice);
+                    currencyList = currencyList.Where(x => Convert.ToDecimal(x.Prices.Last()) < maxValue);
                 }
             }
 
-            switch (sortOrder)
+            switch (sortColumn)
             {
-                case "name_desc":
-                    currencyList = currencyList.OrderByDescending(x => x.Currency);
+                case Name:
+                    currencyList = sortDir == Descending ? currencyList.OrderByDescending(x => x.Currency) : currencyList.OrderBy(x => x.Currency);
                     break;
-                case "price":
-                    currencyList = currencyList.OrderBy(x => x.Prices.Last());
-                    break;
-                case "price_desc":
-                    currencyList = currencyList.OrderByDescending(x => x.Prices.Last());
+                case Price:
+                    currencyList = sortDir == Descending ? currencyList.OrderByDescending(x => x.Prices.Last()) : currencyList.OrderBy(x => x.Prices.Last());
                     break;
                 default:
                     currencyList = currencyList.OrderBy(x => x.Currency);
                     break;
             }
 
-            var model = new CurrencyListModel
-            {
-                NameSort = nameSort,
-                PriceSort = priceSort,
-                MinPrice = minValue,
-                MaxPrice = maxValue,
-                CurrencyList = currencyList
-            };
+
+            model.SortColumn = sortColumn;
+            model.SortDirection = sortDir;
+            model.MinPrice = minValue;
+            model.MaxPrice = maxValue;
+            model.CurrencyList = currencyList;
 
             return View(model);
         }

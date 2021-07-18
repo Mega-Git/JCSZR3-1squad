@@ -1,7 +1,36 @@
-﻿@model CurrencyListModel
-
+﻿@using Crypto.Web.Controllers
+@model CurrencyListModel
 
 @{var index = 0;}
+
+<form asp-action="Index" asp-route-minValue="@Model.MinPrice" asp-route-maxValue="@Model.MaxPrice" asp-route-sortColumn="@Model.SortColumn" asp-route-sortDir="@Model.SortDirection">
+    <div class="card">
+        <article class="card-group">
+            <header class="card-header">
+                <h6>Price range</h6>
+            </header>
+            <div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Min</label>
+                            <input type="number" class="form-control" name="minValue" min="0" value="@Model.MinPrice" oninput="this.value = Math.abs(this.value)" placeholder="0">
+                            @if (!@Model.MinPriceIsValid)
+                            {
+                                <label>Minimum value cannot be higher than maximum value.</label>
+                            }
+                        </div>
+                        <div class="form-group col-md-6 text-right">
+                            <label>Max</label>
+                            <input type="number" class="form-control" name="maxValue" min="0" value="@Model.MaxPrice" oninput="this.value = Math.abs(this.value)" placeholder="0">
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" name="PriceFilter" value="Filter" />
+            </div>
+        </article>
+    </div>
+</form>
 
 <div class="container">
     <table class="table">
@@ -11,10 +40,10 @@
                     <a>#</a>
                 </th>
                 <th class="sticky-top">
-                    <a asp-action="Index" asp-route-sortOrder="@Model.NameSort">Name</a>
+                    @Html.ActionLink("Name", "Index", "Home", new { sortColumn = @HomeController.Name, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice })
                 </th>
                 <th class="sticky-top">
-                    <a asp-action="Index" asp-route-sortOrder="@Model.PriceSort">Price</a>
+                    @Html.ActionLink("Price", "Index", "Home", new { sortColumn = @HomeController.Price, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice })
                 </th>
             </tr>
         </thead>
