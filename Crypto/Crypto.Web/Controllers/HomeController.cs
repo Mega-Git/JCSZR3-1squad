@@ -36,7 +36,10 @@ namespace Crypto.Web.Controllers
 
         public IActionResult Index(string sortColumn, decimal? minValue, decimal? maxValue, string sortDir = "")
         {
-            
+            if (maxValue == 0)
+            {
+                maxValue = null;
+            }
             var currencyList = JsonFile.CryptoCurrencies.Select(x => x);
             var model = new CurrencyListModel
             {
