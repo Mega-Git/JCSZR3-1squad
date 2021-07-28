@@ -5,11 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Shared\_CurrencyTable.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Crypto.Core\Crypto.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

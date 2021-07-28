@@ -19,10 +19,7 @@ namespace Crypto.Web.Controllers
             _logger = logger;
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -35,22 +32,22 @@ namespace Crypto.Web.Controllers
             var nameSort = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             var priceSort = sortOrder == "price" ? "price_desc" : "price";
 
-            var currencyList = JsonFile.CryptoCurrencies.Select(x => x);
+            IEnumerable<CurrencyTest> currencyList; 
 
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    currencyList = currencyList.OrderByDescending(x => x.Currency);
+                    currencyList = JsonFile.CryptoCurrencies.OrderByDescending(x => x.Currency);
                     break;
                 case "price":
-                    currencyList = currencyList.OrderBy(x => x.Prices.Last());
+                    currencyList = JsonFile.CryptoCurrencies.OrderBy(x => x.Prices.Last());
                     break;
                 case "price_desc":
-                    currencyList = currencyList.OrderByDescending(x => x.Prices.Last());
+                    currencyList = JsonFile.CryptoCurrencies.OrderByDescending(x => x.Prices.Last());
                     break;
                 default:
-                    currencyList = currencyList.OrderBy(x => x.Currency);
+                    currencyList = JsonFile.CryptoCurrencies.OrderBy(x => x.Currency);
                     break;
             }
 
@@ -62,6 +59,16 @@ namespace Crypto.Web.Controllers
             };
 
             return View(model);
+        }
+        public IActionResult Favorites()    
+        {
+            List<CurrencyTest> CurrencyListFavorite = new List<CurrencyTest>();
+
+            CurrencyListFavorite.AddRange()
+
+
+
+            return View();
         }
     }
 }
