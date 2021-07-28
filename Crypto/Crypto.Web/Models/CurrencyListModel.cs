@@ -8,8 +8,11 @@ namespace Crypto.Web.Models
 {
     public class CurrencyListModel
     {
-        public string NameSort { get; set; }
-        public string PriceSort { get; set; }
+        public string SortColumn { get; set; }
+        public string SortDirection { get; set; }
+        public decimal? MinPrice { get; set; }
+        public decimal? MaxPrice { get; set; }
+        public bool MinPriceIsValid { get; set; }
         public IEnumerable<CurrencyTest> CurrencyList { get; set; }
     }
 }
