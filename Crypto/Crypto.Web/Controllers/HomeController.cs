@@ -34,7 +34,7 @@ namespace Crypto.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Index(string sortColumn, decimal? minValue, decimal? maxValue, string sortDir = "")
+        public IActionResult Index(string sortColumn, decimal? minValue, decimal? maxValue, string currencyName, string sortDir = "")
         {
             if (maxValue == 0)
             {
@@ -46,6 +46,10 @@ namespace Crypto.Web.Controllers
                 MinPriceIsValid = minValue < maxValue || minValue == null || maxValue == null
             };
 
+            if (!string.IsNullOrEmpty(currencyName))
+            {
+                currencyList = currencyList.Where(x => x.Currency.Contains(currencyName.ToUpper()));
+            }
 
             if (minValue != null || maxValue != null)
             {
@@ -81,6 +85,7 @@ namespace Crypto.Web.Controllers
             model.SortDirection = sortDir;
             model.MinPrice = minValue;
             model.MaxPrice = maxValue;
+            model.CurencyName = currencyName;
             model.CurrencyList = currencyList;
 
             return View(model);
