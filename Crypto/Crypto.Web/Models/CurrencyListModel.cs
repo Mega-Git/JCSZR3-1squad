@@ -13,6 +13,7 @@ namespace Crypto.Web.Models
         public decimal? MinPrice { get; set; }
         public decimal? MaxPrice { get; set; }
         public bool MinPriceIsValid { get; set; }
+        public string CurencyName { get; set; }
         public IEnumerable<CurrencyTest> CurrencyList { get; set; }
     }
 }
