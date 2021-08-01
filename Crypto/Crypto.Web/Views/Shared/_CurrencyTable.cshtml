@@ -3,7 +3,8 @@
 
 @{var index = 0;}
 
-<form asp-action="Index" asp-route-minValue="@Model.MinPrice" asp-route-maxValue="@Model.MaxPrice" asp-route-sortColumn="@Model.SortColumn" asp-route-sortDir="@Model.SortDirection" asp-route-currencyName="@Model.CurencyName">
+
+<form asp-action="Index" asp-route-selectedcheck="@Model.SelectedCheck"  asp-route-minValue="@Model.MinPrice" asp-route-maxValue="@Model.MaxPrice" asp-route-sortColumn="@Model.SortColumn" asp-route-sortDir="@Model.SortDirection" asp-route-currencyName="@Model.CurencyName">
     <div class="card">
         <article class="card-group">
             <header class="card-header">
@@ -55,6 +56,7 @@
             @foreach (var item in Model.CurrencyList)
             {
                 <tr>
+                    <td>@Html.CheckBox("test", Model.SelectedCheck)</td>
                     <td>@(++index)</td>
                     <td>@item.Currency</td>
                     <td>@item.Prices.Last()</td>
