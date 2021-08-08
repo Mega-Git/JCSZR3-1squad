@@ -34,7 +34,7 @@ namespace Crypto.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Index(bool selectedcheck ,string sortColumn, decimal? minValue, decimal? maxValue, string currencyName, string sortDir = "")
+        public IActionResult Index(bool selectedcheck, string sortColumn, decimal? minValue, decimal? maxValue, string currencyName, string sortDir = "")
         {
             if (maxValue == 0)
             {
@@ -79,7 +79,7 @@ namespace Crypto.Web.Controllers
                     currencyList = currencyList.OrderBy(x => x.Currency);
                     break;
             }
-            
+
 
             model.SortColumn = sortColumn;
             model.SortDirection = sortDir;
@@ -87,49 +87,22 @@ namespace Crypto.Web.Controllers
             model.MaxPrice = maxValue;
             model.CurencyName = currencyName;
             model.CurrencyList = currencyList;
-          
-
-            ///////////////////////////
-            var FList = new List<FavoriteListModel>();
-
-            //if (model.SelectedCheck == true)
-            //{
-            //    foreach (var item in model.CurencyName)
-            //    {
-            //        List<FavoriteListModel> i = (List<FavoriteListModel>)FList.Add(item);
-            //        return ();
-            //    }
-               
-            //}
 
             return View(model);
-
-
         }
-      public IActionResult Favorite(IEnumerable<CurrencyTest> listOfFavorite)
+        public IActionResult Favorite(IEnumerable<CurrencyTest> listOfFavorite)
         {
-
-            //JsonFile.CryptoCurrencies
             for (int i = 0; i < JsonFile.CryptoCurrencies.Count; i++)
             {
                 JsonFile.CryptoCurrencies[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
 
-                
-
             }
-            
-
-
-
-
-
             return RedirectToAction("Index");
         }
 
         public IActionResult FavoriteList()
         {
-
-            return View(JsonFile.CryptoCurrencies.Where(c=>c.Favorite));
+            return View(JsonFile.CryptoCurrencies.Where(c => c.Favorite));
         }
-}
+    }
 }

@@ -4,7 +4,7 @@
 @{var index = 0;}
 
 
-<form asp-action="Index"  asp-route-minValue="@Model.MinPrice" asp-route-maxValue="@Model.MaxPrice" asp-route-sortColumn="@Model.SortColumn" asp-route-sortDir="@Model.SortDirection" asp-route-currencyName="@Model.CurencyName">
+<form asp-action="Index" asp-route-minValue="@Model.MinPrice" asp-route-maxValue="@Model.MaxPrice" asp-route-sortColumn="@Model.SortColumn" asp-route-sortDir="@Model.SortDirection" asp-route-currencyName="@Model.CurencyName">
     <div class="card">
         <article class="card-group">
             <header class="card-header">
@@ -68,7 +68,7 @@
                 }
             </tbody>
         </table>
-          
+
 
         <input type="submit" name="PriceFilter" value="Favorites" />
     </form>
