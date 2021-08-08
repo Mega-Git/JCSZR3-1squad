@@ -87,26 +87,26 @@ namespace Crypto.Web.Controllers
             model.MaxPrice = maxValue;
             model.CurencyName = currencyName;
             model.CurrencyList = currencyList;
-            model.SelectedCheck = selectedcheck;
+          
 
             ///////////////////////////
             var FList = new List<FavoriteListModel>();
 
-            if (model.SelectedCheck == true)
-            {
-                foreach (var item in model.CurencyName)
-                {
-                    List<FavoriteListModel> i = (List<FavoriteListModel>)FList.Add(item);
-                    return i;
-                }
+            //if (model.SelectedCheck == true)
+            //{
+            //    foreach (var item in model.CurencyName)
+            //    {
+            //        List<FavoriteListModel> i = (List<FavoriteListModel>)FList.Add(item);
+            //        return ();
+            //    }
                
-            }
+            //}
 
             return View(model);
 
 
         }
-      public IActionResult Favorite()
+      public IActionResult Favorite(IEnumerable<CurrencyTest> listOfFavorite)
         {
            
             

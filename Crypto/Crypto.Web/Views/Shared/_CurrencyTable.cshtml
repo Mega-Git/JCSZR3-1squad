@@ -4,7 +4,7 @@
 @{var index = 0;}
 
 
-<form asp-action="Index" asp-route-selectedcheck="@Model.SelectedCheck"  asp-route-minValue="@Model.MinPrice" asp-route-maxValue="@Model.MaxPrice" asp-route-sortColumn="@Model.SortColumn" asp-route-sortDir="@Model.SortDirection" asp-route-currencyName="@Model.CurencyName">
+<form asp-action="Index"  asp-route-minValue="@Model.MinPrice" asp-route-maxValue="@Model.MaxPrice" asp-route-sortColumn="@Model.SortColumn" asp-route-sortDir="@Model.SortDirection" asp-route-currencyName="@Model.CurencyName">
     <div class="card">
         <article class="card-group">
             <header class="card-header">
@@ -38,31 +38,39 @@
 </form>
 
 <div class="container">
-    <table class="table">
-        <thead>
-            <tr>
-                <th class="sticky-top">
-                    <a>#</a>
-                </th>
-                <th class="sticky-top">
-                    @Html.ActionLink("Name", "Index", "Home", new { sortColumn = @HomeController.Name, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice })
-                </th>
-                <th class="sticky-top">
-                    @Html.ActionLink("Price", "Index", "Home", new { sortColumn = @HomeController.Price, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice })
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.CurrencyList)
-            {
+    <form asp-action="Favorite">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@Html.CheckBox("test", Model.SelectedCheck)</td>
-                    <td>@(++index)</td>
-                    <td>@item.Currency</td>
-                    <td>@item.Prices.Last()</td>
+                    <th class="sticky-top">
+                        <a>#</a>
+                    </th>
+                    <th class="sticky-top">
+                        @Html.ActionLink("Name", "Index", "Home", new { sortColumn = @HomeController.Name, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice })
+                    </th>
+                    <th class="sticky-top">
+                        @Html.ActionLink("Price", "Index", "Home", new { sortColumn = @HomeController.Price, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice })
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+
+
+            <tbody>
+                @foreach (var item in Model.CurrencyList)
+                {
+                    <tr>
+                        <td>@Html.CheckBoxFor(Model => Model.CurrencyList.ToList()[index].Favorites)</td>
+                        <td>@(++index)</td>
+                        <td>@item.Currency</td>
+                        <td>@item.Prices.Last()</td>
+                    </tr>
+                    @Html.HiddenFor(m => m.CurrencyList)
+                }
+            </tbody>
+        </table>
+          
+
+        <input type="submit" name="PriceFilter" value="Favorites" />
+    </form>
 
 </div>
