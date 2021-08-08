@@ -108,15 +108,28 @@ namespace Crypto.Web.Controllers
         }
       public IActionResult Favorite(IEnumerable<CurrencyTest> listOfFavorite)
         {
-           
+
+            //JsonFile.CryptoCurrencies
+            for (int i = 0; i < JsonFile.CryptoCurrencies.Count; i++)
+            {
+                JsonFile.CryptoCurrencies[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
+
+                
+
+            }
             
-            
 
 
 
 
 
-            return View();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult FavoriteList()
+        {
+
+            return View(JsonFile.CryptoCurrencies.Where(c=>c.Favorite));
         }
 }
 }
