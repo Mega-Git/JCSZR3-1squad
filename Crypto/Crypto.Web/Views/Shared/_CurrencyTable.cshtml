@@ -55,6 +55,9 @@
                 <th class="sticky-top">
                     <a>Change</a>
                 </th>
+                <th class="sticky-top">
+                    <a>Last updated</a>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -80,6 +83,7 @@
                             <label class="ChangePositive">+@Model.PriceChange[index - 1]</label>
                         }
                     </td>
+                    <td>@DateTime.Parse(item.Timestamps.Last())</td>
                 </tr>
             }
         </tbody>
