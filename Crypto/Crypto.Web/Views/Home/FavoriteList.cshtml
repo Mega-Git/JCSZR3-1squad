@@ -1,0 +1,35 @@
+﻿@using Crypto.Core.Models
+
+@{var index = 0;}
+
+@model IEnumerable<CurrencyTest>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="sticky-top">
+                <a>#</a>
+            </th>
+            <th class="sticky-top">
+                <p>Nazwa</p>
+            </th>
+            <th class="sticky-top">
+                <p>Cena</p>
+            </th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@(++index)</td>
+                <td>@item.Currency</td>
+                <td>@item.Prices.Last()</td>
+            </tr>
+
+        }
+    </tbody>
+</table>

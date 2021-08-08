@@ -34,7 +34,7 @@ namespace Crypto.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Index(string sortColumn, decimal? minValue, decimal? maxValue, string currencyName, string sortDir = "")
+        public IActionResult Index(bool selectedcheck, string sortColumn, decimal? minValue, decimal? maxValue, string currencyName, string sortDir = "")
         {
             if (maxValue == 0)
             {
@@ -89,6 +89,20 @@ namespace Crypto.Web.Controllers
             model.CurrencyList = currencyList;
 
             return View(model);
+        }
+        public IActionResult Favorite(IEnumerable<CurrencyTest> listOfFavorite)
+        {
+            for (int i = 0; i < JsonFile.CryptoCurrencies.Count; i++)
+            {
+                JsonFile.CryptoCurrencies[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
+
+            }
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult FavoriteList()
+        {
+            return View(JsonFile.CryptoCurrencies.Where(c => c.Favorite));
         }
     }
 }
