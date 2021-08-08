@@ -16,6 +16,7 @@ namespace Crypto.Web.Controllers
         public const string Descending = "desc";
         public const string Name = "name";
         public const string Price = "price";
+        public const string PreviousPrice = "prev_price";
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -73,6 +74,9 @@ namespace Crypto.Web.Controllers
                     currencyList = sortDir == Descending ? currencyList.OrderByDescending(x => x.Currency) : currencyList.OrderBy(x => x.Currency);
                     break;
                 case Price:
+                    currencyList = sortDir == Descending ? currencyList.OrderByDescending(x => x.Prices.Last()) : currencyList.OrderBy(x => x.Prices.Last());
+                    break;
+                case PreviousPrice:
                     currencyList = sortDir == Descending ? currencyList.OrderByDescending(x => x.Prices.Last()) : currencyList.OrderBy(x => x.Prices.Last());
                     break;
                 default:
