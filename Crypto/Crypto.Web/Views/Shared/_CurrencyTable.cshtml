@@ -68,7 +68,18 @@
                         <a>Sell: </a>@item.Prices.Last()
                     </td>
                     <td><a>Sell: </a>@item.Prices[^2]</td>
-                    <td>@(((decimal.Parse(item.Prices[^2]) - decimal.Parse(item.Prices.Last())) / decimal.Parse(item.Prices[^2])).ToString("P") )</td>
+                    <td>
+                        @if (Model.PriceChange[index - 1].Contains("-"))
+                        {
+                            <div class="TriangleDown"></div>
+                            <label class="ChangeNegative">@Model.PriceChange[index - 1]</label>
+                        }
+                        else
+                        {
+                            <div class="TriangleUp"></div>
+                            <label class="ChangePositive">+@Model.PriceChange[index - 1]</label>
+                        }
+                    </td>
                 </tr>
             }
         </tbody>

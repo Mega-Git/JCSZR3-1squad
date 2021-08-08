@@ -47,6 +47,7 @@ namespace Crypto.Web.Controllers
                 MinPriceIsValid = minValue < maxValue || minValue == null || maxValue == null
             };
 
+
             if (!string.IsNullOrEmpty(currencyName))
             {
                 currencyList = currencyList.Where(x => x.Currency.Contains(currencyName.ToUpper()));
@@ -84,6 +85,14 @@ namespace Crypto.Web.Controllers
                     break;
             }
 
+            var change = new List<string>();
+            var lastPrice = currencyList.Select(x => x.Prices.Last()).ToList();
+            var secondLastPrice = currencyList.Select(x => x.Prices[^2]).ToList();
+            for (int i = 0; i < currencyList.Count(); i++)
+            {
+                change.Add(((decimal.Parse(secondLastPrice[i]) - decimal.Parse(lastPrice[i])) / decimal.Parse(secondLastPrice[i]))
+                    .ToString("P"));
+            }
 
             model.SortColumn = sortColumn;
             model.SortDirection = sortDir;
@@ -91,6 +100,7 @@ namespace Crypto.Web.Controllers
             model.MaxPrice = maxValue;
             model.CurencyName = currencyName;
             model.CurrencyList = currencyList;
+            model.PriceChange = change;
 
             return View(model);
         }
