@@ -15,6 +15,7 @@ namespace Crypto.Web.Models
         public bool MinPriceIsValid { get; set; }
         public string CurencyName { get; set; }
         public IEnumerable<CurrencyTest> CurrencyList { get; set; }
+        public List<string> PriceChange { get; set; }
         
 
         public FavoriteListModel FavoriteList { get; set; }
