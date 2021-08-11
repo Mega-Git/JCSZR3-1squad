@@ -76,6 +76,7 @@
         <input type="submit" name="PriceFilter" value="Favorites" />
     </form>
 
+
     <form asp-action="AddCurrency">
         <div class="form-group">
             <label>Name</label>
@@ -92,32 +93,36 @@
         </div>
     </form>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th class="sticky-top">
-                    <a>#</a>
-                </th>
-                <th class="sticky-top">
-                    <p>Name</p>
-                </th>
-                <th class="sticky-top">
-                    <p>Price</p>
-                </th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var item in Model.NewCurrencies)
-            {
+    <form asp-action="Favorite">
+        <table class="table">
+            <thead>
                 <tr>
-
-                    <td>@(++index)</td>
-                    <td>@item.Currency</td>
-                    <td>@item.Prices.Last()</td>
+                    <th class="sticky-top">
+                        <a>#</a>
+                    </th>
+                    <th class="sticky-top">
+                        <p>Name</p>
+                    </th>
+                    <th class="sticky-top">
+                        <p>Price</p>
+                    </th>
                 </tr>
+            </thead>
 
-            }
-        </tbody>
-    </table>
+            <tbody>
+                @foreach (var item in Model.NewCurrencies)
+                {
+                    <tr>
+
+                        <td>@(++index)</td>
+                        <td>@item.Currency</td>
+                        <td>@item.Prices.Last()</td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+
+        <input type="submit" name="PriceFilter" value="Delete" />
+        </form>
 </div>
