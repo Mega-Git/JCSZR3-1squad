@@ -93,7 +93,8 @@
         </div>
     </form>
 
-    <form asp-action="Favorite">
+
+    <form asp-action="CurrencyDelete" >
         <table class="table">
             <thead>
                 <tr>
@@ -113,16 +114,19 @@
                 @foreach (var item in Model.NewCurrencies)
                 {
                     <tr>
-
-                        <td>@(++index)</td>
+                        <td>
+                            @*<input type="checkbox" name="name" value="@Model.NewCurrencies" />*@
+                        </td>
                         <td>@item.Currency</td>
                         <td>@item.Prices.Last()</td>
-                    </tr>
+                        <td>@Html.ActionLink("Delete", "CurrencyDelete", new { currencyDelete = item.Currency })</td>
 
+                    </tr>
+                    @Html.HiddenFor(m => m.NewCurrencies)
                 }
             </tbody>
         </table>
 
-        <input type="submit" name="PriceFilter" value="Delete" />
-        </form>
+        
+    </form>
 </div>

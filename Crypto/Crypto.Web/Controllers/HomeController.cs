@@ -91,7 +91,7 @@ namespace Crypto.Web.Controllers
             model.CurencyName = currencyName;
             model.CurrencyList = currencyList;
             model.NewCurrencies = newcurrencies;
-            
+
             return View(model);
         }
         public IActionResult Favorite(IEnumerable<CurrencyTest> listOfFavorite)
@@ -112,21 +112,22 @@ namespace Crypto.Web.Controllers
         public IActionResult AddCurrency(string currencyName, string currencyPrice)
         {
             newcurrencies.Add(
-                new CurrencyTest { 
-                    Currency = currencyName, 
-                    Prices = new[] { currencyPrice } 
+                new CurrencyTest
+                {
+                    Currency = currencyName,
+                    Prices = new[] { currencyPrice }
                 }
                 );
-            
-           
+
+
 
             return RedirectToAction("Index");
         }
 
-        public IActionResult CurrencyDelete()
+        public IActionResult CurrencyDelete(string currencyDelete)
         {
+            newcurrencies.Remove(newcurrencies.FirstOrDefault(t => t.Currency == currencyDelete));
 
-            //var itemRemove = newcurrencies.Single(x => x);
 
             return RedirectToAction("Index");
         }
