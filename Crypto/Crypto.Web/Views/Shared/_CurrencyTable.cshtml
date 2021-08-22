@@ -2,6 +2,7 @@
 @model CurrencyListModel
 
 @{var index = 0;}
+@{var i = 0;}
 
 
 <form asp-action="Index" asp-route-minValue="@Model.MinPrice" asp-route-maxValue="@Model.MaxPrice" asp-route-sortColumn="@Model.SortColumn" asp-route-sortDir="@Model.SortDirection" asp-route-currencyName="@Model.CurencyName">
@@ -94,7 +95,7 @@
     </form>
 
 
-    <form asp-action="CurrencyDelete" >
+    <form asp-action="CurrencyDelete">
         <table class="table">
             <thead>
                 <tr>
@@ -114,9 +115,8 @@
                 @foreach (var item in Model.NewCurrencies)
                 {
                     <tr>
-                        <td>
-                            @*<input type="checkbox" name="name" value="@Model.NewCurrencies" />*@
-                        </td>
+
+                        <td>@(++i)</td>
                         <td>@item.Currency</td>
                         <td>@item.Prices.Last()</td>
                         <td>@Html.ActionLink("Delete", "CurrencyDelete", new { currencyDelete = item.Currency })</td>
@@ -127,6 +127,6 @@
             </tbody>
         </table>
 
-        
+
     </form>
 </div>
