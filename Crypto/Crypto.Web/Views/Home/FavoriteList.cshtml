@@ -1,6 +1,6 @@
 ﻿@using Crypto.Core.Models
 
-@{var index = 0;}
+@{var i = 0;}
 
 @model IEnumerable<CurrencyTest>
 
@@ -11,10 +11,10 @@
                 <a>#</a>
             </th>
             <th class="sticky-top">
-                <p>Nazwa</p>
+                <p>Name</p>
             </th>
             <th class="sticky-top">
-                <p>Cena</p>
+                <p>Price</p>
             </th>
         </tr>
     </thead>
@@ -25,7 +25,7 @@
         {
             <tr>
 
-                <td>@(++index)</td>
+                <td>@(++i)</td>
                 <td>@item.Currency</td>
                 <td>@item.Prices.Last()</td>
             </tr>

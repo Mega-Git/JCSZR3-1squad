@@ -17,6 +17,10 @@ namespace Crypto.Web.Models
         public IEnumerable<CurrencyTest> CurrencyList { get; set; }
         public List<string> PriceChange { get; set; }
         
+        public  IEnumerable<CurrencyTest> NewCurrencies { get; set; }
+
+        
+
 
         public FavoriteListModel FavoriteList { get; set; }
 

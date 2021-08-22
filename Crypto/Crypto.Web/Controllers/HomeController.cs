@@ -14,6 +14,7 @@ namespace Crypto.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private static List<CurrencyTest> newcurrencies = new List<CurrencyTest>();
         public const string Descending = "desc";
         public const string Name = "name";
         public const string Price = "price";
@@ -100,6 +101,8 @@ namespace Crypto.Web.Controllers
                     .ToString("P" , CultureInfo.InvariantCulture));
             }
 
+
+
             model.SortColumn = sortColumn;
             model.SortDirection = sortDir;
             model.MinPrice = minValue;
@@ -107,6 +110,7 @@ namespace Crypto.Web.Controllers
             model.CurencyName = currencyName;
             model.CurrencyList = currencyList;
             model.PriceChange = change;
+            model.NewCurrencies = newcurrencies;
 
             return View(model);
         }
@@ -129,6 +133,29 @@ namespace Crypto.Web.Controllers
         public IActionResult FavoriteList()
         {
             return View(JsonFile.CryptoCurrencies.Where(c => c.Favorite));
+        }
+
+        public IActionResult AddCurrency(string currencyName, string currencyPrice)
+        {
+            newcurrencies.Add(
+                new CurrencyTest
+                {
+                    Currency = currencyName,
+                    Prices = new[] { currencyPrice }
+                }
+                );
+
+
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult CurrencyDelete(string currencyDelete)
+        {
+            newcurrencies.Remove(newcurrencies.FirstOrDefault(t => t.Currency == currencyDelete));
+
+
+            return RedirectToAction("Index");
         }
     }
 }
