@@ -31,6 +31,39 @@
             background-color: #555;
             color: white;
         }
+
+.ChangePositive {
+    color: green;
+    font-size: 1.2rem;
+}
+
+.ChangeNegative {
+    color: red;
+    font-size: 1.2rem;
+}
+
+.TriangleDown {
+    float: left;
+    width: 0;
+    margin-top: 18px;
+    height: 0;
+    text-align: left;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 15px solid red;
+}
+
+.TriangleUp {
+    float: left;
+    width: 0;
+    margin-top: 3px;
+    height: 0;
+    text-align: left;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 15px solid green;
+}
+
 @media screen and (max-width: 700px) {
     .sidebar {
         width: 100%;

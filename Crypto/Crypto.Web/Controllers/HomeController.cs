@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Crypto.Core.Models;
 using Microsoft.AspNetCore.Http;
+using System.Globalization;
 
 namespace Crypto.Web.Controllers
 {
@@ -17,6 +18,7 @@ namespace Crypto.Web.Controllers
         public const string Descending = "desc";
         public const string Name = "name";
         public const string Price = "price";
+        public const string PreviousPrice = "prev_price";
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -37,6 +39,10 @@ namespace Crypto.Web.Controllers
 
         public IActionResult Index(bool selectedcheck, string sortColumn, decimal? minValue, decimal? maxValue, string currencyName, string sortDir = "")
         {
+            var provider = new CultureInfo("en-US");
+
+       
+
             if (maxValue == 0)
             {
                 maxValue = null;
@@ -46,6 +52,7 @@ namespace Crypto.Web.Controllers
             {
                 MinPriceIsValid = minValue < maxValue || minValue == null || maxValue == null
             };
+
 
             if (!string.IsNullOrEmpty(currencyName))
             {
@@ -76,11 +83,23 @@ namespace Crypto.Web.Controllers
                 case Price:
                     currencyList = sortDir == Descending ? currencyList.OrderByDescending(x => x.Prices.Last()) : currencyList.OrderBy(x => x.Prices.Last());
                     break;
+                case PreviousPrice:
+                    currencyList = sortDir == Descending ? currencyList.OrderByDescending(x => x.Prices.Last()) : currencyList.OrderBy(x => x.Prices.Last());
+                    break;
                 default:
                     currencyList = currencyList.OrderBy(x => x.Currency);
                     break;
             }
 
+            var change = new List<string>();
+            var lastPrice = currencyList.Select(x => x.Prices.Last()).ToList();
+            var secondLastPrice = currencyList.Select(x => x.Prices[^2]).ToList();
+
+            for (int i = 0; i < currencyList.Count(); i++)
+            {
+                change.Add(((DecimalParse(secondLastPrice[i]) - DecimalParse(lastPrice[i])) / DecimalParse(secondLastPrice[i]))
+                    .ToString("P" , CultureInfo.InvariantCulture));
+            }
 
 
 
@@ -90,9 +109,16 @@ namespace Crypto.Web.Controllers
             model.MaxPrice = maxValue;
             model.CurencyName = currencyName;
             model.CurrencyList = currencyList;
+            model.PriceChange = change;
             model.NewCurrencies = newcurrencies;
 
             return View(model);
+        }
+
+        private decimal DecimalParse(string number)
+        {
+            var provider = new CultureInfo("en-US");
+            return decimal.Parse(number, provider);
         }
         public IActionResult Favorite(IEnumerable<CurrencyTest> listOfFavorite)
         {
