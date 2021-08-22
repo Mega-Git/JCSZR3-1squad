@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Crypto.Core.Models;
 using Microsoft.AspNetCore.Http;
+using System.Globalization;
 
 namespace Crypto.Web.Controllers
 {
@@ -37,6 +38,10 @@ namespace Crypto.Web.Controllers
 
         public IActionResult Index(bool selectedcheck, string sortColumn, decimal? minValue, decimal? maxValue, string currencyName, string sortDir = "")
         {
+            var provider = new CultureInfo("en-US");
+
+       
+
             if (maxValue == 0)
             {
                 maxValue = null;
@@ -88,10 +93,11 @@ namespace Crypto.Web.Controllers
             var change = new List<string>();
             var lastPrice = currencyList.Select(x => x.Prices.Last()).ToList();
             var secondLastPrice = currencyList.Select(x => x.Prices[^2]).ToList();
+
             for (int i = 0; i < currencyList.Count(); i++)
             {
-                change.Add(((decimal.Parse(secondLastPrice[i]) - decimal.Parse(lastPrice[i])) / decimal.Parse(secondLastPrice[i]))
-                    .ToString("P"));
+                change.Add(((DecimalParse(secondLastPrice[i]) - DecimalParse(lastPrice[i])) / DecimalParse(secondLastPrice[i]))
+                    .ToString("P" , CultureInfo.InvariantCulture));
             }
 
             model.SortColumn = sortColumn;
@@ -103,6 +109,12 @@ namespace Crypto.Web.Controllers
             model.PriceChange = change;
 
             return View(model);
+        }
+
+        private decimal DecimalParse(string number)
+        {
+            var provider = new CultureInfo("en-US");
+            return decimal.Parse(number, provider);
         }
         public IActionResult Favorite(IEnumerable<CurrencyTest> listOfFavorite)
         {
