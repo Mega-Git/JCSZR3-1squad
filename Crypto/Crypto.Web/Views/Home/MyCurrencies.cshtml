@@ -38,6 +38,9 @@
                 <th class="sticky-top">
                     <p>Price</p>
                 </th>
+                <th class="sticky-top">
+                <p>Time</p>
+                </th>
             </tr>
         </thead>
 
@@ -49,6 +52,7 @@
                     <td>@(++i)</td>
                     <td>@item.Currency</td>
                     <td>@item.Prices.Last()</td>
+                    <td>@DateTime.Parse(item.Timestamps.Last())</td>
                     <td>@Html.ActionLink("Delete", "CurrencyDelete", new { currencyDelete = item.Currency })</td>
 
                 </tr>
