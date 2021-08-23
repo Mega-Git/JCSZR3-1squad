@@ -49,6 +49,7 @@ namespace Crypto.Web.Controllers
             }
             var currencyList = JsonFile.CryptoCurrencies.Select(x => x);
             var model = new CurrencyListModel
+            
             {
                 MinPriceIsValid = minValue < maxValue || minValue == null || maxValue == null
             };
@@ -147,7 +148,7 @@ namespace Crypto.Web.Controllers
 
 
 
-            return RedirectToAction("Index");
+            return RedirectToAction("MyCurrencies");
         }
 
         public IActionResult CurrencyDelete(string currencyDelete)
@@ -155,7 +156,17 @@ namespace Crypto.Web.Controllers
             newcurrencies.Remove(newcurrencies.FirstOrDefault(t => t.Currency == currencyDelete));
 
 
-            return RedirectToAction("Index");
+            return RedirectToAction("MyCurrencies");
+        }
+
+
+        public IActionResult MyCurrencies()
+        {
+            var model = new CurrencyListModel();
+            model.NewCurrencies = newcurrencies;
+
+
+            return View(model);
         }
     }
 }

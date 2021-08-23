@@ -1,0 +1,61 @@
+﻿
+@using Crypto.Web.Controllers
+@using System.Globalization
+@model CurrencyListModel
+
+@{var provider = new CultureInfo("en-US");}
+
+@{var i = 0;}
+
+
+<form asp-action="AddCurrency">
+    <div class="form-group">
+        <label>Name</label>
+        <input name="currencyName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Price</label>
+        <input name="currencyPrice" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+
+
+<form asp-action="CurrencyDelete">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="sticky-top">
+                    <a>#</a>
+                </th>
+                <th class="sticky-top">
+                    <p>Name</p>
+                </th>
+                <th class="sticky-top">
+                    <p>Price</p>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.NewCurrencies)
+            {
+                <tr>
+
+                    <td>@(++i)</td>
+                    <td>@item.Currency</td>
+                    <td>@item.Prices.Last()</td>
+                    <td>@Html.ActionLink("Delete", "CurrencyDelete", new { currencyDelete = item.Currency })</td>
+
+                </tr>
+                @Html.HiddenFor(m => m.NewCurrencies)
+            }
+        </tbody>
+    </table>
+
+
+</form>
