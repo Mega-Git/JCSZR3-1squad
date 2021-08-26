@@ -171,17 +171,21 @@ namespace Crypto.Web.Controllers
 
         public IActionResult AddCurrency(string currencyName, string currencyPrice)
         {
-            newcurrencies.Add(
-                new CurrencyTest
-                {
-                    Currency = currencyName,
-                    Prices = new[] { currencyPrice },
-                    Timestamps = new[] { DateTime.Now.ToString() }
+            var currencyList = JsonFile.CryptoCurrencies.Select(c => c.Currency);
+            var myCurrency = newcurrencies.Select(x => x.Currency);
 
-                }
-                );
+            var newCurrency = new CurrencyTest
+            {
+                Currency = currencyName.ToUpper(),
+                Prices = new[] { currencyPrice },
+                Timestamps = new[] { DateTime.Now.ToString() }
 
 
+            };
+            if (currencyList.Contains(newCurrency.Currency.ToUpper()) == false && myCurrency.Contains(newCurrency.Currency.ToUpper()) == false) 
+            {
+                newcurrencies.Add(newCurrency);
+            }
 
             return RedirectToAction("MyCurrencies");
         }
