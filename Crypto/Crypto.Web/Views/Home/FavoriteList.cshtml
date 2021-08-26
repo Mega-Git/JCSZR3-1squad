@@ -1,10 +1,13 @@
-﻿@using Crypto.Core.Models
+﻿@using Crypto.Web.Controllers
+@using Crypto.Core.Models
+@using System.Globalization
 
-@{var i = 0;}
 
-@model IEnumerable<CurrencyTest>
+@{var index = 0; }
+@{var provider = new CultureInfo("en-US");}
 
-<table class="table">
+@model CurrencyListModel
+<!--<table class="table">
     <thead>
         <tr>
             <th class="sticky-top">
@@ -17,10 +20,8 @@
                 <p>Price</p>
             </th>
         </tr>
-    </thead>
-
-
-    <tbody>
+    </thead>-->
+@*<tbody>
         @foreach (var item in Model)
         {
             <tr>
@@ -31,5 +32,72 @@
             </tr>
 
         }
-    </tbody>
-</table>
+    </tbody>*@
+<!--</table>-->
+
+<div class="container">
+    <form asp-action="RemoveFavorites">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="sticky-top">
+                        <a>★</a>
+                    </th>
+                    <th class="sticky-top">
+                        <a>#</a>
+                    </th>
+                    <th class="sticky-top">
+                        <a>Name</a>
+                    </th>
+                    <th class="sticky-top">
+                        <a>Price</a>
+                    </th>
+                    <th class="sticky-top">
+                        <a>Previous price</a>
+                    </th>
+                    <th class="sticky-top">
+                        <a>Change</a>
+                    </th>
+                    <th class="sticky-top">
+                        <a>Last updated</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CurrencyList)
+                {
+                    <tr>
+
+                        <td>@Html.CheckBoxFor(Model => Model.CurrencyList.ToList()[index].isselected) </td>
+                        <td>@(++index)</td>
+                        <td>@item.Currency</td>
+                        <td>
+                            <a>Buy: </a>@((decimal.Parse(item.Prices.Last(), provider) * 93 / 100).ToString(provider)) <br />
+                            <a>Sell: </a>@(item.Prices.Last())
+                        </td>
+                        <td>
+                            <a>Sell: </a>@item.Prices[^2]
+                        </td>
+                        <td>
+                            @if (Model.PriceChange[index - 1].Contains("-"))
+                            {
+                                <div class="TriangleDown"></div>
+                                <label class="ChangeNegative">@Model.PriceChange[index - 1]</label>
+                            }
+                            else
+                            {
+                                <div class="TriangleUp"></div>
+                                <label class="ChangePositive">+@Model.PriceChange[index - 1]</label>
+                            }
+                        </td>
+                        <td>@DateTime.Parse(item.Timestamps.Last())</td>
+                    </tr>
+                    @Html.HiddenFor(m => m.CurrencyList)
+
+                }
+            </tbody>
+        </table>
+
+
+        <input type="submit" name="PriceFilter" value="Remove" />
+    </form>

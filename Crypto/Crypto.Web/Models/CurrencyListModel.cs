@@ -21,6 +21,8 @@ namespace Crypto.Web.Models
 
         
 
+        
+
 
         public FavoriteListModel FavoriteList { get; set; }
 

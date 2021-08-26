@@ -41,7 +41,7 @@ namespace Crypto.Web.Controllers
         {
             var provider = new CultureInfo("en-US");
 
-       
+
 
             if (maxValue == 0)
             {
@@ -49,6 +49,7 @@ namespace Crypto.Web.Controllers
             }
             var currencyList = JsonFile.CryptoCurrencies.Select(x => x);
             var model = new CurrencyListModel
+
             {
                 MinPriceIsValid = minValue < maxValue || minValue == null || maxValue == null
             };
@@ -98,7 +99,7 @@ namespace Crypto.Web.Controllers
             for (int i = 0; i < currencyList.Count(); i++)
             {
                 change.Add(((DecimalParse(secondLastPrice[i]) - DecimalParse(lastPrice[i])) / DecimalParse(secondLastPrice[i]))
-                    .ToString("P" , CultureInfo.InvariantCulture));
+                    .ToString("P", CultureInfo.InvariantCulture));
             }
 
 
@@ -127,27 +128,66 @@ namespace Crypto.Web.Controllers
                 JsonFile.CryptoCurrencies[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
 
             }
+
             return RedirectToAction("Index");
         }
 
+        public IActionResult RemoveFavorites(IEnumerable<CurrencyTest> listOfFavorite)
+        {
+            var deletefavorite = JsonFile.CryptoCurrencies.Where(x =>x.Favorite).ToList();
+
+            for (int i = 0; i < deletefavorite.Count; i++)
+            {
+                if (listOfFavorite.ToArray()[i].isselected)
+                {
+                    deletefavorite[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
+                }
+            }
+
+            return RedirectToAction("FavoriteList");
+        }
+
+
         public IActionResult FavoriteList()
         {
-            return View(JsonFile.CryptoCurrencies.Where(c => c.Favorite));
+            var model = new CurrencyListModel();
+            var currencylist = JsonFile.CryptoCurrencies.Where(c => c.Favorite);
+            model.CurrencyList = currencylist;
+
+            var change = new List<string>();
+            var lastPrice = currencylist.Select(x => x.Prices.Last()).ToList();
+            var secondLastPrice = currencylist.Select(x => x.Prices[^2]).ToList();
+
+            for (int i = 0; i < currencylist.Count(); i++)
+            {
+                change.Add(((DecimalParse(secondLastPrice[i]) - DecimalParse(lastPrice[i])) / DecimalParse(secondLastPrice[i]))
+                    .ToString("P", CultureInfo.InvariantCulture));
+            }
+
+            model.PriceChange = change;
+
+            return View(model);
         }
 
         public IActionResult AddCurrency(string currencyName, string currencyPrice)
         {
-            newcurrencies.Add(
-                new CurrencyTest
-                {
-                    Currency = currencyName,
-                    Prices = new[] { currencyPrice }
-                }
-                );
+            var currencyList = JsonFile.CryptoCurrencies.Select(c => c.Currency);
+            var myCurrency = newcurrencies.Select(x => x.Currency);
+
+            var newCurrency = new CurrencyTest
+            {
+                Currency = currencyName.ToUpper(),
+                Prices = new[] { currencyPrice },
+                Timestamps = new[] { DateTime.Now.ToString() }
 
 
+            };
+            if (currencyList.Contains(newCurrency.Currency.ToUpper()) == false && myCurrency.Contains(newCurrency.Currency.ToUpper()) == false) 
+            {
+                newcurrencies.Add(newCurrency);
+            }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("MyCurrencies");
         }
 
         public IActionResult CurrencyDelete(string currencyDelete)
@@ -155,7 +195,17 @@ namespace Crypto.Web.Controllers
             newcurrencies.Remove(newcurrencies.FirstOrDefault(t => t.Currency == currencyDelete));
 
 
-            return RedirectToAction("Index");
+            return RedirectToAction("MyCurrencies");
+        }
+
+
+        public IActionResult MyCurrencies()
+        {
+            var model = new CurrencyListModel();
+            model.NewCurrencies = newcurrencies;
+
+
+            return View(model);
         }
     }
 }
