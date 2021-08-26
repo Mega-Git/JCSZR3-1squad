@@ -1,12 +1,27 @@
 ﻿
 
-<div class="sidebar">
+    <div class="sidebar-container">
+        <div class="sidebar-logo">
+            <i class="fas fa-search-dollar"></i>CryptoAPP
+        </div>
+        <ul class="sidebar-navigation">
+            <li class="header">Navigation</li>
+            <li>
+                <a asp-controller="Home" asp-action="Index">
+                    <i class="fab fa-bitcoin" aria-hidden="true">&nbsp;&nbsp;&nbsp; </i>Cryptocurrencies
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Home" asp-action="MyCurrencies">
+                    <i class="fas fa-coins" aria-hidden="true">&nbsp;&nbsp;</i> My cryptocurrencies
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Home" asp-action="FavoriteList">
+                    <i class="fas fa-heart" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>Favorites
+                </a>
+            </li>
+            
 
-    <div class="AppTitle">$ CryptoAPP $</div>
-    <a class="active" asp-controller="Home" asp-action="Index">Cryptocurrencies</a>
-    <a asp-controller="Home" asp-action="MyCurrencies">My cryptocurrencies</a>
-    <a asp-controller="Home" asp-action="FavoriteList">Favorites</a>
-
-
-</div>
-
+        </ul>
+    </div>
