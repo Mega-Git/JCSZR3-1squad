@@ -2,7 +2,7 @@
 @using Crypto.Core.Models
 @using System.Globalization
 
-@{var i = 0;}
+
 @{var index = 0; }
 @{var provider = new CultureInfo("en-US");}
 
@@ -67,7 +67,8 @@
                 @foreach (var item in Model.CurrencyList)
                 {
                     <tr>
-                        <td>@Html.CheckBoxFor(Model => Model.CurrencyList.ToList()[index].Favorite, htmlAttributes: new {@checked = true })</td>
+
+                        <td>@Html.CheckBoxFor(Model => Model.CurrencyList.ToList()[index].isselected) </td>
                         <td>@(++index)</td>
                         <td>@item.Currency</td>
                         <td>

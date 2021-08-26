@@ -128,20 +128,22 @@ namespace Crypto.Web.Controllers
                 JsonFile.CryptoCurrencies[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
 
             }
+
             return RedirectToAction("Index");
         }
 
         public IActionResult RemoveFavorites(IEnumerable<CurrencyTest> listOfFavorite)
         {
-            var deletefavorite = JsonFile.CryptoCurrencies.Where(x => x.Favorite).ToList();
+            var deletefavorite = JsonFile.CryptoCurrencies.Where(x =>x.Favorite).ToList();
 
             for (int i = 0; i < deletefavorite.Count; i++)
             {
-               
-
-               deletefavorite[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
-
+                if (listOfFavorite.ToArray()[i].isselected)
+                {
+                    deletefavorite[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
+                }
             }
+
             return RedirectToAction("FavoriteList");
         }
 
@@ -174,8 +176,8 @@ namespace Crypto.Web.Controllers
                 {
                     Currency = currencyName,
                     Prices = new[] { currencyPrice },
-                    Timestamps = new[] {DateTime.Now.ToString()}
-                    
+                    Timestamps = new[] { DateTime.Now.ToString() }
+
                 }
                 );
 
