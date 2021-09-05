@@ -10,20 +10,15 @@ namespace Crypto.Core.Models
 {
     public class JsonFile
     {
-        public static List<CurrencyTest> CryptoCurrencies { get; set; }
+        public static List<CurrencyModel> CryptoCurrencies { get; set; }
 
         public static void InitializeCurrienciesListFromFile()
         {
             var path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "Crypto.Core\\jsonfiles\\waluty\\Prices.json");
             
-            string jsonFile = File.ReadAllText(path);
+            var jsonFile = File.ReadAllText(path);
 
-            CryptoCurrencies = JsonConvert.DeserializeObject<List<CurrencyTest>>(jsonFile);
-        }
-
-        public static void SaveListToFile()
-        {
-
+            CryptoCurrencies = JsonConvert.DeserializeObject<List<CurrencyModel>>(jsonFile);
         }
     }
 }
