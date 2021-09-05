@@ -15,8 +15,8 @@ namespace Crypto.Web.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           var machine =  System.Environment.MachineName;
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-RR8E0R8\SQLEXPRESS;Database=CurrencyDB;Trusted_Connection=True;");
+          
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Currency;Integrated Security=True;Connect Timeout=30;");
         }
 
     }
