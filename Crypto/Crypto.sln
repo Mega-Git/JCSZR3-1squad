@@ -6,7 +6,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.Display", "Crypto\Cr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.Core", "Crypto.Core\Crypto.Core.csproj", "{DE71799D-BA35-4145-83D9-80879914F4CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.Web", "Crypto.Web\Crypto.Web.csproj", "{B5D36961-171F-4DF5-84FE-0C2C6AB4C5CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.Web", "Crypto.Web\Crypto.Web.csproj", "{B5D36961-171F-4DF5-84FE-0C2C6AB4C5CC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1398DD92-DB61-4116-ADE5-191A1A84E7D5}"
+	ProjectSection(SolutionItems) = preProject
+		ComputerName.txt = ComputerName.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
