@@ -12,6 +12,10 @@ namespace Crypto.Web.Models
     {
 
         public DbSet<NewCurrencyModel> Currency { get; set; }
+        public DbSet<NewCurrencyPricesModel> Price { get; set; }
+        public DbSet<NewCurrencyTimestampsModel> Timestamp { get; set; }
+
+      
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,5 +23,6 @@ namespace Crypto.Web.Models
             optionsBuilder.UseSqlServer($@"Server={machineName}\SQLEXPRESS;Database=CurrencyDB;Trusted_Connection=True;");
         }
 
+       
     }
 }

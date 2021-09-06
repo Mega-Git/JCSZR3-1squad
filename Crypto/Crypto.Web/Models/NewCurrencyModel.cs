@@ -10,9 +10,12 @@ namespace Crypto.Web.Models
     {
         [Key]
         public int CurrencyId { get; set; }
-        public string Currency { get; set; }
-        public string Prices { get; set; }
-        public string Timestamps { get; set; }
+        public string Name { get; set; }
 
+
+        public ICollection<NewCurrencyPricesModel> Prices { get; set; }
+        public ICollection<NewCurrencyTimestampsModel> Timestamps { get; set; }
+
+       
     }
 }
