@@ -12,17 +12,9 @@ namespace Crypto.Web.Models
         [Key]
         public int PriceId { get; set; }
         public string Price { get; set; }
-
-
         public int CurrencyId { get; set; }
-
-        
         public NewCurrencyModel Currency { get; set; }
-
         public int TimestampId { get; set; }
-
-      
         public NewCurrencyTimestampsModel Timestamp { get; set; }
-
     }
 }
