@@ -1,6 +1,7 @@
 ﻿using Crypto.Core.Models;
 using Crypto.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -157,15 +158,28 @@ namespace Crypto.Web.Controllers
 
         public IActionResult AddCurrency(string currencyName, string currencyPrice)
         {
-            var currencyList = JsonFile.CryptoCurrencies.Select(c => c.Currency);
-            var myCurrency = Newcurrencies.Select(x => x.Currency);
+            var context = new CurrencyContext();
+        
 
-            var newCurrency = new CurrencyModel
-            {
-                Currency = currencyName.ToUpper(),
-                Prices = new[] { currencyPrice },
-                Timestamps = new[] { DateTime.Now.ToString() }
+            
+            var currencyList = JsonFile.CryptoCurrencies.Select(c => c.Currency);
+            var myCurrency = context.Currency;
+
+            using (context) {
+                var newCurrency = new NewCurrencyModel();
+                {
+                    newCurrency.Name = currencyName.ToUpper();
+                    newCurrency.Prices = new NewCurrencyPricesModel {Price =  currencyPrice},
+                //newCurrency.Timestamps = new[] { DateTime.Now.ToString() }
+
+                }
             };
+
+            using (context) { 
+            
+            
+            
+            }
             if (currencyList.Contains(newCurrency.Currency.ToUpper()) == false &&
                 myCurrency.Contains(newCurrency.Currency.ToUpper()) == false)
             {
@@ -185,9 +199,13 @@ namespace Crypto.Web.Controllers
         
         public IActionResult MyCurrencies()
         {
-            var model = new CurrencyListModel { NewCurrencies = Newcurrencies };
+            var context = new CurrencyContext();
 
-            return View(model);
+            var currencyList = context.Currency.Include(x => x.Name).Include(x => x.Prices).ThenInclude(x => x.Price).Include(x => x.Timestamps).ThenInclude(x => x.Timestamp);
+
+            //var model = new CurrencyListModel { NewCurrencies = Newcurrencies };
+
+            return View(context);
         }
     }
 }
