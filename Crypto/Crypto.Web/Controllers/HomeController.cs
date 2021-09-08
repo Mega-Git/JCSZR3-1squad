@@ -165,26 +165,26 @@ namespace Crypto.Web.Controllers
             var currencyList = JsonFile.CryptoCurrencies.Select(c => c.Currency);
             var myCurrency = context.Currency;
 
-            using (context) {
-                var newCurrency = new NewCurrencyModel();
-                {
-                    newCurrency.Name = currencyName.ToUpper();
-                    newCurrency.Prices = new NewCurrencyPricesModel {Price =  currencyPrice},
-                //newCurrency.Timestamps = new[] { DateTime.Now.ToString() }
-
-                }
-            };
-
-            using (context) { 
-            
-            
-            
-            }
-            if (currencyList.Contains(newCurrency.Currency.ToUpper()) == false &&
-                myCurrency.Contains(newCurrency.Currency.ToUpper()) == false)
+            using (context)
             {
-                Newcurrencies.Add(newCurrency);
+                if (currencyList.Contains(currencyName.ToUpper()) == false &&
+                    myCurrency.Any(x => x.Name == currencyName.ToUpper()) == false)
+                {
+                    var newCurrency = new NewCurrencyModel();
+                    {
+                        newCurrency.Name = currencyName.ToUpper();
+                        newCurrency.Prices = new[] {new NewCurrencyPricesModel {Price = currencyPrice}};
+                        newCurrency.Timestamps = new[]
+                            {new NewCurrencyTimestampsModel {Timestamp = DateTime.Now.ToString()}};
+                    }
+                }
             }
+
+            //if (currencyList.Contains(currencyName.ToUpper()) == false &&
+            //    myCurrency.Contains(currencyName.ToUpper()) == false)
+            //{
+            //    Newcurrencies.Add(newCurrency);
+            //}
 
             return RedirectToAction("MyCurrencies");
         }
