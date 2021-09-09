@@ -177,6 +177,8 @@ namespace Crypto.Web.Controllers
                         newCurrency.Timestamps = new[]
                             {new NewCurrencyTimestampsModel {Timestamp = DateTime.Now.ToString()}};
                     }
+                    context.Add(newCurrency);
+                    context.SaveChanges();
                 }
             }
 
