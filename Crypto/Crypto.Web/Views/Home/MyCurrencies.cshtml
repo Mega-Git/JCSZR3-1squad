@@ -1,7 +1,7 @@
 ﻿
 @using Crypto.Web.Controllers
 @using System.Globalization
-@model CurrencyContext
+@model List<NewCurrencyModel>
 
 @{var provider = new CultureInfo("en-US");}
 
@@ -45,18 +45,18 @@
             </thead>
 
             <tbody>
-                @foreach (var item in Model.Currency)
+                @foreach (var item in Model)
                 {
                     <tr>
 
                         <td>@(++i)</td>
                         <td>@item.Name</td>
-                        <td>@item.Prices.Last()</td>
-                        <td>@item.Timestamps.Last()</td>
+                        <td>@item.Prices.Last().Price</td>
+                        <td>@item.Timestamps.Last().Timestamp</td>
                         <td>@Html.ActionLink("Delete", "CurrencyDelete", new { currencyDelete = item.Name })</td>
 
                     </tr>
-                    @Html.HiddenFor(m => m.Currency)
+                    @*@Html.HiddenFor(m => m.Currency)*@
                 }
             </tbody>
         </table>

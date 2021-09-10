@@ -18,17 +18,19 @@ namespace Crypto.Web.Models
         {
             modelBuilder.Entity<NewCurrencyModel>()
                 .HasMany(x => x.Prices)
-                .WithOne(x => x.Currency);
+                .WithOne(x => x.Currency)
+                .HasForeignKey(x => x.CurrencyId);
 
             modelBuilder.Entity<NewCurrencyModel>()
                 .HasMany(x => x.Timestamps)
-                .WithOne(x => x.Currency);
+                .WithOne(x => x.Currency)
+                .HasForeignKey(x => x.CurrencyId);
 
-            modelBuilder.Entity<NewCurrencyPricesModel>()
-                .HasOne(x => x.Timestamp)
-                .WithOne(x => x.Price)
-                .HasForeignKey<NewCurrencyTimestampsModel>(x => x.PriceId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<NewCurrencyPricesModel>()
+            //    .HasOne(x => x.Timestamp)
+            //    .WithOne(x => x.Price)
+            //    .HasForeignKey<NewCurrencyTimestampsModel>(x => x.PriceId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<NewCurrencyTimestampsModel>()
                 .HasOne(x => x.Price)

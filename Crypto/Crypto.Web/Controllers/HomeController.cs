@@ -173,11 +173,27 @@ namespace Crypto.Web.Controllers
                     var newCurrency = new NewCurrencyModel();
                     {
                         newCurrency.Name = currencyName.ToUpper();
-                        newCurrency.Prices = new[] {new NewCurrencyPricesModel {Price = currencyPrice}};
-                        newCurrency.Timestamps = new[]
-                            {new NewCurrencyTimestampsModel {Timestamp = DateTime.Now.ToString()}};
+                        newCurrency.Prices = new List<NewCurrencyPricesModel>();
+                        newCurrency.Timestamps = new List<NewCurrencyTimestampsModel>();
+                        //newCurrency.Prices = new[] { new NewCurrencyPricesModel { Price = currencyPrice, PriceId = 0 } };
+                        //newCurrency.Timestamps = new[]
+                        //    {new NewCurrencyTimestampsModel {Timestamp = DateTime.Now.ToString(), TimestampId = 0}};
                     }
-                    context.Add(newCurrency);
+                    var newCurrencyPrice = new NewCurrencyPricesModel()
+                    {
+                        Price = currencyPrice
+                    };
+                    var newCurrencyTimestamp = new NewCurrencyTimestampsModel()
+                    {
+                        Timestamp = DateTime.Now.ToString()
+                    };
+                    newCurrencyTimestamp.Price = newCurrencyPrice;
+                    newCurrencyPrice.Timestamp = newCurrencyTimestamp;
+                    newCurrency.Prices.Add(newCurrencyPrice);
+                    newCurrency.Timestamps.Add(newCurrencyTimestamp);
+                    context.Currency.Add(newCurrency);
+                    //context.Price.Add(newCurrencyPrice);
+                    //context.Timestamp.Add(newCurrencyTimestamp);
                     context.SaveChanges();
                 }
             }
@@ -203,11 +219,11 @@ namespace Crypto.Web.Controllers
         {
             var context = new CurrencyContext();
 
-            var currencyList = context.Currency.Include(x => x.Name).Include(x => x.Prices).ThenInclude(x => x.Price).Include(x => x.Timestamps).ThenInclude(x => x.Timestamp);
+            var currencyList = context.Currency.Include(x => x.Prices).Include(x => x.Timestamps).ToList();
 
             //var model = new CurrencyListModel { NewCurrencies = Newcurrencies };
 
-            return View(context);
+            return View(currencyList);
         }
     }
 }
