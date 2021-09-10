@@ -26,12 +26,6 @@ namespace Crypto.Web.Models
                 .WithOne(x => x.Currency)
                 .HasForeignKey(x => x.CurrencyId);
 
-            //modelBuilder.Entity<NewCurrencyPricesModel>()
-            //    .HasOne(x => x.Timestamp)
-            //    .WithOne(x => x.Price)
-            //    .HasForeignKey<NewCurrencyTimestampsModel>(x => x.PriceId)
-            //    .OnDelete(DeleteBehavior.NoAction);
-
             modelBuilder.Entity<NewCurrencyTimestampsModel>()
                 .HasOne(x => x.Price)
                 .WithOne(x => x.Timestamp)

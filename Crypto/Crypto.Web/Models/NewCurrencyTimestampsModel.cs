@@ -14,7 +14,6 @@ namespace Crypto.Web.Models
         public string Timestamp { get; set; }
         public int CurrencyId { get; set; }
         public NewCurrencyModel Currency { get; set; }
-        //public int PriceId { get; set; }
         public NewCurrencyPricesModel Price { get; set; }
     }
 }
