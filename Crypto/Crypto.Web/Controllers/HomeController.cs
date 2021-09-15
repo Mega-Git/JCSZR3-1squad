@@ -1,6 +1,7 @@
 ﻿using Crypto.Core.Models;
 using Crypto.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -157,37 +158,61 @@ namespace Crypto.Web.Controllers
 
         public IActionResult AddCurrency(string currencyName, string currencyPrice)
         {
+            var context = new CurrencyContext();
+        
+
+            
             var currencyList = JsonFile.CryptoCurrencies.Select(c => c.Currency);
-            var myCurrency = Newcurrencies.Select(x => x.Currency);
+            var myCurrency = context.Currency;
 
-            var newCurrency = new CurrencyModel
+            using (context)
             {
-                Currency = currencyName.ToUpper(),
-                Prices = new[] { currencyPrice },
-                Timestamps = new[] { DateTime.Now.ToString() }
-            };
-            if (currencyList.Contains(newCurrency.Currency.ToUpper()) == false &&
-                myCurrency.Contains(newCurrency.Currency.ToUpper()) == false)
-            {
-                Newcurrencies.Add(newCurrency);
+                if (currencyList.Contains(currencyName.ToUpper()) == false &&
+                    myCurrency.Any(x => x.Name == currencyName.ToUpper()) == false)
+                {
+                    var newCurrency = new NewCurrencyModel();
+                    {
+                        newCurrency.Name = currencyName.ToUpper();
+                        newCurrency.Prices = new List<NewCurrencyPricesModel>();
+                        newCurrency.Timestamps = new List<NewCurrencyTimestampsModel>();
+                    }
+                    var newCurrencyPrice = new NewCurrencyPricesModel()
+                    {
+                        Price = currencyPrice
+                    };
+                    var newCurrencyTimestamp = new NewCurrencyTimestampsModel()
+                    {
+                        Timestamp = DateTime.Now.ToString()
+                    };
+                    newCurrencyTimestamp.Price = newCurrencyPrice;
+                    newCurrencyPrice.Timestamp = newCurrencyTimestamp;
+                    newCurrency.Prices.Add(newCurrencyPrice);
+                    newCurrency.Timestamps.Add(newCurrencyTimestamp);
+                    context.Currency.Add(newCurrency);
+                    context.SaveChanges();
+                }
             }
-
             return RedirectToAction("MyCurrencies");
         }
 
         public IActionResult CurrencyDelete(string currencyDelete)
         {
-            Newcurrencies.Remove(Newcurrencies.FirstOrDefault(t => t.Currency == currencyDelete));
-
+            using (var context = new CurrencyContext())
+            {
+                context.Remove(context.Currency.First(x => x.Name == currencyDelete));
+                context.SaveChanges();
+            }
 
             return RedirectToAction("MyCurrencies");
         }
         
         public IActionResult MyCurrencies()
         {
-            var model = new CurrencyListModel { NewCurrencies = Newcurrencies };
+            var context = new CurrencyContext();
 
-            return View(model);
+            var currencyList = context.Currency.Include(x => x.Prices).Include(x => x.Timestamps).ToList();
+
+            return View(currencyList);
         }
     }
 }
