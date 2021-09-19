@@ -172,24 +172,18 @@ namespace Crypto.Web.Controllers
                     {
                         newCurrency.Name = currencyName.ToUpper();
                         newCurrency.Prices = new List<NewCurrencyPricesModel>();
-                        newCurrency.Timestamps = new List<NewCurrencyTimestampsModel>();
                     }
                     var newCurrencyPrice = new NewCurrencyPricesModel()
                     {
-                        Price = currencyPrice
-                    };
-                    var newCurrencyTimestamp = new NewCurrencyTimestampsModel()
-                    {
+                        Price = currencyPrice,
                         Timestamp = DateTime.Now.ToString()
                     };
-                    newCurrencyTimestamp.Price = newCurrencyPrice;
-                    newCurrencyPrice.Timestamp = newCurrencyTimestamp;
                     newCurrency.Prices.Add(newCurrencyPrice);
-                    newCurrency.Timestamps.Add(newCurrencyTimestamp);
                     _context.Currency.Add(newCurrency);
                     _context.SaveChanges();
                 }
             }
+
             return RedirectToAction("MyCurrencies");
         }
 
@@ -203,10 +197,10 @@ namespace Crypto.Web.Controllers
 
             return RedirectToAction("MyCurrencies");
         }
-        
+
         public IActionResult MyCurrencies()
         {
-            var currencyList = _context.Currency.Include(x => x.Prices).Include(x => x.Timestamps).ToList();
+            var currencyList = _context.Currency.Include(x => x.Prices).ToList();
 
             return View(currencyList);
         }

@@ -12,7 +12,6 @@ namespace Crypto.Web.Models
     {
         public DbSet<NewCurrencyModel> Currency { get; set; }
         public DbSet<NewCurrencyPricesModel> Price { get; set; }
-        public DbSet<NewCurrencyTimestampsModel> Timestamp { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,17 +19,6 @@ namespace Crypto.Web.Models
                 .HasMany(x => x.Prices)
                 .WithOne(x => x.Currency)
                 .HasForeignKey(x => x.CurrencyId);
-
-            modelBuilder.Entity<NewCurrencyModel>()
-                .HasMany(x => x.Timestamps)
-                .WithOne(x => x.Currency)
-                .HasForeignKey(x => x.CurrencyId);
-
-            modelBuilder.Entity<NewCurrencyTimestampsModel>()
-                .HasOne(x => x.Price)
-                .WithOne(x => x.Timestamp)
-                .HasForeignKey<NewCurrencyPricesModel>(x => x.TimestampId)
-                .OnDelete(DeleteBehavior.NoAction);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
