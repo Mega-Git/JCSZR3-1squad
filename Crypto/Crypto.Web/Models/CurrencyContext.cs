@@ -39,5 +39,10 @@ namespace Crypto.Web.Models
             optionsBuilder.UseSqlServer(
                 $@"Server={machineName}\SQLEXPRESS;Database=CurrencyDB;Trusted_Connection=True;");
         }
+
+        public CurrencyContext()
+        {
+            
+        }
     }
 }

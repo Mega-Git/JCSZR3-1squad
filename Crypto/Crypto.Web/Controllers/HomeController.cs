@@ -19,10 +19,12 @@ namespace Crypto.Web.Controllers
         public const string Price = "price";
         public const string PreviousPrice = "prev_price";
         private readonly ILogger<HomeController> _logger;
+        private readonly CurrencyContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, CurrencyContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -158,14 +160,10 @@ namespace Crypto.Web.Controllers
 
         public IActionResult AddCurrency(string currencyName, string currencyPrice)
         {
-            var context = new CurrencyContext();
-        
-
-            
             var currencyList = JsonFile.CryptoCurrencies.Select(c => c.Currency);
-            var myCurrency = context.Currency;
+            var myCurrency = _context.Currency;
 
-            using (context)
+            using (_context)
             {
                 if (currencyList.Contains(currencyName.ToUpper()) == false &&
                     myCurrency.Any(x => x.Name == currencyName.ToUpper()) == false)
@@ -188,8 +186,8 @@ namespace Crypto.Web.Controllers
                     newCurrencyPrice.Timestamp = newCurrencyTimestamp;
                     newCurrency.Prices.Add(newCurrencyPrice);
                     newCurrency.Timestamps.Add(newCurrencyTimestamp);
-                    context.Currency.Add(newCurrency);
-                    context.SaveChanges();
+                    _context.Currency.Add(newCurrency);
+                    _context.SaveChanges();
                 }
             }
             return RedirectToAction("MyCurrencies");
@@ -197,10 +195,10 @@ namespace Crypto.Web.Controllers
 
         public IActionResult CurrencyDelete(string currencyDelete)
         {
-            using (var context = new CurrencyContext())
+            using (_context)
             {
-                context.Remove(context.Currency.First(x => x.Name == currencyDelete));
-                context.SaveChanges();
+                _context.Remove(_context.Currency.First(x => x.Name == currencyDelete));
+                _context.SaveChanges();
             }
 
             return RedirectToAction("MyCurrencies");
@@ -208,9 +206,7 @@ namespace Crypto.Web.Controllers
         
         public IActionResult MyCurrencies()
         {
-            var context = new CurrencyContext();
-
-            var currencyList = context.Currency.Include(x => x.Prices).Include(x => x.Timestamps).ToList();
+            var currencyList = _context.Currency.Include(x => x.Prices).Include(x => x.Timestamps).ToList();
 
             return View(currencyList);
         }
