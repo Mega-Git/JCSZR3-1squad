@@ -20,6 +20,30 @@
             <input type="submit" value="Save" class="btn btn-primary" />
         </div>
     </form>
+
+ 
+
+    <form asp-action="AddPrice">
+        @*<div class="form-group">
+            <label>Currency Name </label>
+            <input name="currencyName" class="form-control" />
+        </div>*@
+        <select name="currencyName" class="form-select" aria-label="Default select example">
+            <option selected>Select Currency to add new price</option>
+            @foreach (var item in Model)
+            {
+                <option value="@item.Name">@item.Name</option>
+
+            }
+        </select>
+        <div class="form-group">
+            <label>New Price </label>
+            <input name="currencyPrice" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
     <form asp-action="CurrencyDelete">
         <table class="table">
             <thead>
@@ -44,29 +68,16 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td>@(++i)</td>
-                    <td>@item.CurrencyId</td>
-                    <td>@item.Name</td>
-                    <td>@item.Prices.Last().Price</td>
-                    <td>@item.Prices.Last().Timestamp</td>
-                    <td>@Html.ActionLink("Delete", "CurrencyDelete", new { currencyDelete = item.Name })</td>
-                </tr>
+                    <tr>
+                        <td>@(++i)</td>
+                        <td>@item.Name</td>
+                        <td>@item.Prices.Last().Price</td>
+                        <td>@item.Prices.Last().Timestamp</td>
+                        <td>@Html.ActionLink("Delete", "CurrencyDelete", new { currencyDelete = item.Name })</td>
+                    </tr>
                 }
             </tbody>
         </table>
     </form>
-    <form asp-action="AddPrice">
-        <div class="form-group">
-            <label>Currency Name </label>
-            <input name="currencyName" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label>New Price </label>
-            <input name="currencyPrice" class="form-control" />
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-primary" />
-        </div>
-    </form>
+
 </div>
