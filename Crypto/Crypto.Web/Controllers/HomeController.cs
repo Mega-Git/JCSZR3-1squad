@@ -187,11 +187,13 @@ namespace Crypto.Web.Controllers
             return RedirectToAction("MyCurrencies");
         }
 
-        public IActionResult AddPrice(string currencyPrice, int currencyID)
+        public IActionResult AddPrice(string currencyPrice, string currencyName)
         {
             using (_context)
             {
-              
+                var findCurrency = _context.Currency.First(x => x.Name == currencyName);
+                var currencyID = findCurrency.CurrencyId;
+
                 var newCurrencyPrice = new NewCurrencyPricesModel()
                 {
                     Price = currencyPrice,
