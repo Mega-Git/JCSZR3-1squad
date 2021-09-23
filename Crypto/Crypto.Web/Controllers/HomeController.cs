@@ -191,17 +191,25 @@ namespace Crypto.Web.Controllers
         {
             using (_context)
             {
-                var findCurrency = _context.Currency.First(x => x.Name == currencyName);
-                var currencyID = findCurrency.CurrencyId;
-
-                var newCurrencyPrice = new NewCurrencyPricesModel()
+                if (currencyName == null)
                 {
-                    Price = currencyPrice,
-                    Timestamp = DateTime.Now.ToString(),
-                    CurrencyId = currencyID
-                };
-                _context.Price.Add(newCurrencyPrice);
-                _context.SaveChanges();
+                    ViewBag.ErrorMessage = "Select currency!";
+
+                }
+                else
+                {
+                    var findCurrency = _context.Currency.First(x => x.Name == currencyName);
+                    var currencyID = findCurrency.CurrencyId;
+
+                    var newCurrencyPrice = new NewCurrencyPricesModel()
+                    {
+                        Price = currencyPrice,
+                        Timestamp = DateTime.Now.ToString(),
+                        CurrencyId = currencyID
+                    };
+                    _context.Price.Add(newCurrencyPrice);
+                    _context.SaveChanges();
+                }
             }
             return RedirectToAction("MyCurrencies");
         }
