@@ -28,6 +28,9 @@
                         <a>#</a>
                     </th>
                     <th class="sticky-top">
+                        <a>CurrencyID from database</a>
+                    </th>
+                    <th class="sticky-top">
                         <p>Name</p>
                     </th>
                     <th class="sticky-top">
@@ -41,31 +44,26 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>@(++i)</td>
-                        <td>@item.Name</td>
-                        <td>@item.Prices.Last().Price</td>
-                        <td>@item.Prices.Last().Timestamp</td>
-
-
-
-
-
-                        <td>@Html.ActionLink("Delete", "CurrencyDelete", new { currencyDelete = item.Name })</td>
-                    </tr>
+                <tr>
+                    <td>@(++i)</td>
+                    <td>@item.CurrencyId</td>
+                    <td>@item.Name</td>
+                    <td>@item.Prices.Last().Price</td>
+                    <td>@item.Prices.Last().Timestamp</td>
+                    <td>@Html.ActionLink("Delete", "CurrencyDelete", new { currencyDelete = item.Name })</td>
+                </tr>
                 }
             </tbody>
         </table>
     </form>
     <form asp-action="AddPrice">
-
-        <div class="form-group">
-            <label>New Price </label>
-            <input name="currencyPrice" class="form-control" />
-        </div>
         <div class="form-group">
             <label>currencyID </label>
             <input name="currencyID" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>New Price </label>
+            <input name="currencyPrice" class="form-control" />
         </div>
         <div class="form-group">
             <input type="submit" value="Save" class="btn btn-primary" />
