@@ -187,6 +187,25 @@ namespace Crypto.Web.Controllers
             return RedirectToAction("MyCurrencies");
         }
 
+        public IActionResult AddPrice(string currencyPrice,int currencyID)
+        {
+            using (_context )
+            {
+                var newCurrencyPrice = new NewCurrencyPricesModel()
+                {
+
+                    Price = currencyPrice,
+                    Timestamp = DateTime.Now.ToString(),
+                   CurrencyId = currencyID
+                };
+
+                _context.Price.Add(newCurrencyPrice);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("MyCurrencies");
+        }
+
         public IActionResult CurrencyDelete(string currencyDelete)
         {
             using (_context)
