@@ -6,6 +6,7 @@
 
 @{ var i = 0; }
 
+
 <div class="container">
     <form asp-action="AddCurrency">
         <div class="form-group">
@@ -42,7 +43,6 @@
         <div class="form-group">
             <input type="submit" value="Save" class="btn btn-primary" />
         </div>
-       
     </form>
     <form asp-action="CurrencyDelete">
         <table class="table">
@@ -50,6 +50,9 @@
                 <tr>
                     <th class="sticky-top">
                         <a>#</a>
+                    </th>
+                    <th class="sticky-top">
+                        <a>CurrencyID from database</a>
                     </th>
                     <th class="sticky-top">
                         <p>Name</p>
@@ -76,4 +79,5 @@
             </tbody>
         </table>
     </form>
+
 </div>
