@@ -1,6 +1,7 @@
 ﻿using Crypto.Core.Models;
 using Crypto.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -18,10 +19,12 @@ namespace Crypto.Web.Controllers
         public const string Price = "price";
         public const string PreviousPrice = "prev_price";
         private readonly ILogger<HomeController> _logger;
+        private readonly CurrencyContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, CurrencyContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -158,36 +161,75 @@ namespace Crypto.Web.Controllers
         public IActionResult AddCurrency(string currencyName, string currencyPrice)
         {
             var currencyList = JsonFile.CryptoCurrencies.Select(c => c.Currency);
-            var myCurrency = Newcurrencies.Select(x => x.Currency);
+            var myCurrency = _context.Currency;
 
-            var newCurrency = new CurrencyModel
+            using (_context)
             {
-                Currency = currencyName.ToUpper(),
-                Prices = new[] { currencyPrice },
-                Timestamps = new[] { DateTime.Now.ToString() }
-            };
-            if (currencyList.Contains(newCurrency.Currency.ToUpper()) == false &&
-                myCurrency.Contains(newCurrency.Currency.ToUpper()) == false)
-            {
-                Newcurrencies.Add(newCurrency);
+                if (currencyList.Contains(currencyName.ToUpper()) == false &&
+                    myCurrency.Any(x => x.Name == currencyName.ToUpper()) == false)
+                {
+                    var newCurrency = new NewCurrencyModel();
+                    {
+                        newCurrency.Name = currencyName.ToUpper();
+                        newCurrency.Prices = new List<NewCurrencyPricesModel>();
+                    }
+                    var newCurrencyPrice = new NewCurrencyPricesModel()
+                    {
+                        Price = currencyPrice,
+                        Timestamp = DateTime.Now.ToString()
+                    };
+                    newCurrency.Prices.Add(newCurrencyPrice);
+                    _context.Currency.Add(newCurrency);
+                    _context.SaveChanges();
+                }
             }
 
             return RedirectToAction("MyCurrencies");
         }
 
+        public IActionResult AddPrice(string currencyPrice, string currencyName)
+        {
+            using (_context)
+            {
+                if (currencyName == null)
+                {
+                    ViewBag.ErrorMessage = "Select currency!";
+
+                }
+                else
+                {
+                    var findCurrency = _context.Currency.First(x => x.Name == currencyName);
+                    var currencyID = findCurrency.CurrencyId;
+
+                    var newCurrencyPrice = new NewCurrencyPricesModel()
+                    {
+                        Price = currencyPrice,
+                        Timestamp = DateTime.Now.ToString(),
+                        CurrencyId = currencyID
+                    };
+                    _context.Price.Add(newCurrencyPrice);
+                    _context.SaveChanges();
+                }
+            }
+            return RedirectToAction("MyCurrencies");
+        }
+
         public IActionResult CurrencyDelete(string currencyDelete)
         {
-            Newcurrencies.Remove(Newcurrencies.FirstOrDefault(t => t.Currency == currencyDelete));
-
+            using (_context)
+            {
+                _context.Remove(_context.Currency.First(x => x.Name == currencyDelete));
+                _context.SaveChanges();
+            }
 
             return RedirectToAction("MyCurrencies");
         }
-        
+
         public IActionResult MyCurrencies()
         {
-            var model = new CurrencyListModel { NewCurrencies = Newcurrencies };
+            var currencyList = _context.Currency.Include(x => x.Prices).ToList();
 
-            return View(model);
+            return View(currencyList);
         }
     }
 }

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Crypto.Web.Models;
 
 namespace Crypto.Web
 {
@@ -24,6 +25,7 @@ namespace Crypto.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation(); // AddRazorRuntimeCompilation - This is to allow to see changes in views without restarting application.
+            services.AddDbContext<CurrencyContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

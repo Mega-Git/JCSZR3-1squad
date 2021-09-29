@@ -6,7 +6,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.Display", "Crypto\Cr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.Core", "Crypto.Core\Crypto.Core.csproj", "{DE71799D-BA35-4145-83D9-80879914F4CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.Web", "Crypto.Web\Crypto.Web.csproj", "{B5D36961-171F-4DF5-84FE-0C2C6AB4C5CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto.Web", "Crypto.Web\Crypto.Web.csproj", "{B5D36961-171F-4DF5-84FE-0C2C6AB4C5CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

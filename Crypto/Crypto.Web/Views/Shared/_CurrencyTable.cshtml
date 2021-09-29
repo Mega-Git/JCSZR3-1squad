@@ -3,12 +3,12 @@
 @model CurrencyListModel
 
 @{ var index = 0; }
-@{var provider = new CultureInfo("en-US");}
+@{ var provider = new CultureInfo("en-US"); }
 
 
 <div class="container">
     <form asp-action="Index" asp-route-minValue="@Model.MinPrice" asp-route-maxValue="@Model.MaxPrice" asp-route-sortColumn="@Model.SortColumn" asp-route-sortDir="@Model.SortDirection" asp-route-currencyName="@Model.CurencyName">
-        <div class="card">
+        
             <article class="card-group">
                 <header class="card-header">
                     <h6>Filter by</h6>
@@ -18,7 +18,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label>Name</label>
-                                <input type="text" name="currencyName" value="@Model.CurencyName" class="form-control" />
+                                <input type="text" name="currencyName" value="@Model.CurencyName" class="form-control"/>
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Minimum price</label>
@@ -34,10 +34,10 @@
                             </div>
                         </div>
                     </div>
-                    <input type="submit" name="PriceFilter" value="Filter" />
+                    <input type="submit" name="PriceFilter" value="Filter"/>
                 </div>
             </article>
-        </div>
+       
     </form>
 </div>
 <div class="container">
@@ -93,35 +93,35 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.CurrencyList)
-                {
-                    <tr>
-                        <td>@Html.CheckBoxFor(Model => Model.CurrencyList.ToList()[index].Favorite)</td>
-                        <td>@(++index)</td>
-                        <td>@item.Currency</td>
-                        <td>
-                            <a>Buy: </a>@((decimal.Parse(item.Prices.Last(), provider) * 93 / 100).ToString(provider)) <br />
-                            <a>Sell: </a>@(item.Prices.Last())
-                        </td>
-                        <td>
-                            <a>Sell: </a>@item.Prices[^2]
-                        </td>
-                        <td>
-                            @if (Model.PriceChange[index - 1].Contains("-"))
-                            {
-                                <div class="TriangleDown"></div>
-                                <label class="ChangeNegative">@Model.PriceChange[index - 1]</label>
-                            }
-                            else
-                            {
-                                <div class="TriangleUp"></div>
-                                <label class="ChangePositive">+@Model.PriceChange[index - 1]</label>
-                            }
-                        </td>
-                        <td>@DateTime.Parse(item.Timestamps.Last())</td>
-                    </tr>
-                    @Html.HiddenFor(m => m.CurrencyList)
-                }
+            @foreach (var item in Model.CurrencyList)
+            {
+                <tr>
+                    <td>@Html.CheckBoxFor(Model => Model.CurrencyList.ToList()[index].Favorite)</td>
+                    <td>@(++index)</td>
+                    <td>@item.Currency</td>
+                    <td>
+                        <a>Buy: </a>@((decimal.Parse(item.Prices.Last(), provider) * 93 / 100).ToString(provider)) <br/>
+                        <a>Sell: </a>@(item.Prices.Last())
+                    </td>
+                    <td>
+                        <a>Sell: </a>@item.Prices[^2]
+                    </td>
+                    <td>
+                        @if (Model.PriceChange[index - 1].Contains("-"))
+                        {
+                            <div class="TriangleDown"></div>
+                            <label class="ChangeNegative">@Model.PriceChange[index - 1]</label>
+                        }
+                        else
+                        {
+                            <div class="TriangleUp"></div>
+                            <label class="ChangePositive">+@Model.PriceChange[index - 1]</label>
+                        }
+                    </td>
+                    <td>@DateTime.Parse(item.Timestamps.Last())</td>
+                </tr>
+                @Html.HiddenFor(m => m.CurrencyList)
+            }
             </tbody>
         </table>
         <input type="submit" name="PriceFilter" value="Favorites" />
