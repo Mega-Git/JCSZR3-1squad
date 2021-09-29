@@ -59,10 +59,10 @@ namespace Crypto.Web.Controllers
                 currencyList = minValue switch
                 {
                     >= 0 when maxValue >= minValue => currencyList.Where(x =>
-                        Convert.ToDecimal(x.Prices.Last()) > minValue && Convert.ToDecimal(x.Prices.Last()) < maxValue),
+                        DecimalParse(x.Prices.Last()) > minValue && DecimalParse(x.Prices.Last()) < maxValue),
                     >= 0 when maxValue == null =>
-                        currencyList.Where(x => Convert.ToDecimal(x.Prices.Last()) > minValue),
-                    null when maxValue > 0 => currencyList.Where(x => Convert.ToDecimal(x.Prices.Last()) < maxValue),
+                        currencyList.Where(x => DecimalParse(x.Prices.Last()) > minValue),
+                    null when maxValue > 0 => currencyList.Where(x => DecimalParse(x.Prices.Last()) < maxValue),
                     _ => currencyList
                 };
             }

@@ -44,29 +44,53 @@
     <form asp-action="Favorite">
         <table class="table">
             <thead>
-            <tr>
-                <th class="sticky-top">
-                    <a>★</a>
-                </th>
-                <th class="sticky-top">
-                    <a>#</a>
-                </th>
-                <th class="sticky-top">
-                    @Html.ActionLink("Name", "Index", "Home", new {sortColumn = @HomeController.Name, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice})
-                </th>
-                <th class="sticky-top">
-                    @Html.ActionLink("Price", "Index", "Home", new {sortColumn = @HomeController.Price, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice})
-                </th>
-                <th class="sticky-top">
-                    @Html.ActionLink("Previous price", "Index", "Home", new {sortColumn = @HomeController.PreviousPrice, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice})
-                </th>
-                <th class="sticky-top">
-                    <a>Change</a>
-                </th>
-                <th class="sticky-top">
-                    <a>Last updated</a>
-                </th>
-            </tr>
+                <tr>
+                    <th class="sticky-top">
+                        <a>★</a>
+                    </th>
+                    <th class="sticky-top">
+                        <a>#</a>
+                    </th>
+                    <th class="sticky-top">
+                        @if (Model.SortColumn == "name" && Model.SortDirection == "desc")
+                        {
+                            <i class="arrow down"></i>
+                        }
+                        else if (Model.SortColumn == "name")
+                        {
+                            <i class="arrow up"></i>
+                        }
+                        @Html.ActionLink("Name", "Index", "Home", new {sortColumn = @HomeController.Name, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice})
+                    </th>
+                    <th class="sticky-top">
+                        @if (Model.SortColumn == "price" && Model.SortDirection == "desc")
+                        {
+                            <i class="arrow down"></i>
+                        }
+                        else if (Model.SortColumn == "price")
+                        {
+                            <i class="arrow up"></i>
+                        }
+                        @Html.ActionLink("Price", "Index", "Home", new { sortColumn = @HomeController.Price, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice })
+                    </th>
+                    <th class="sticky-top">
+                        @if (Model.SortColumn == "prev_price" && Model.SortDirection == "desc")
+                        {
+                            <i class="arrow down"></i>
+                        }
+                        else if (Model.SortColumn == "prev_price")
+                        {
+                            <i class="arrow up"></i>
+                        }
+                        @Html.ActionLink("Previous price", "Index", "Home", new { sortColumn = @HomeController.PreviousPrice, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice })
+                    </th>
+                    <th class="sticky-top">
+                        <a>Change</a>
+                    </th>
+                    <th class="sticky-top">
+                        <a>Last updated</a>
+                    </th>
+                </tr>
             </thead>
             <tbody>
             @foreach (var item in Model.CurrencyList)
@@ -100,6 +124,6 @@
             }
             </tbody>
         </table>
-        <input type="submit" name="PriceFilter" value="Favorites"/>
+        <input type="submit" name="PriceFilter" value="Favorites" />
     </form>
 </div>

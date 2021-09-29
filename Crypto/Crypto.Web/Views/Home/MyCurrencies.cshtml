@@ -15,7 +15,7 @@
         </div>
         <div class="form-group">
             <label>Price</label>
-            <input name="currencyPrice" class="form-control" />
+            <input type="number" name="currencyPrice" class="form-control" step="any" oninput="this.value = Math.abs(this.value)" placeholder="0"/>
         </div>
         <div class="form-group">
             <input type="submit" value="Save" class="btn btn-primary" />
