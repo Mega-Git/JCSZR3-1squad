@@ -1,4 +1,5 @@
 ﻿using Crypto.Core.Models;
+using Crypto.Core.Providers;
 using Crypto.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using System.Globalization;
 using System.Linq;
 
 namespace Crypto.Web.Controllers
+
 {
     public class HomeController : Controller
     {
@@ -36,6 +38,10 @@ namespace Crypto.Web.Controllers
         public IActionResult Index(string sortColumn, decimal? minValue, decimal? maxValue,
             string currencyName, string sortDir = "")
         {
+            var nomics = new NomicsProvider();
+
+            nomics.GetData();
+
             if (maxValue == 0)
             {
                 maxValue = null;
