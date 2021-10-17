@@ -12,7 +12,7 @@ namespace Crypto.Core.Providers
     public class NomicsProvider
     {
 
-        public List<CurrencyModel> GetData()
+      public static List<CurrencyModel> GetData()
         {
             var client = new HttpClient();
 
@@ -21,7 +21,7 @@ namespace Crypto.Core.Providers
             var response = client.GetAsync(URL).Result;
             var Crypto = JsonConvert.DeserializeObject<List<CurrencyModel>>(response.Content.ReadAsStringAsync().Result);
 
-            return new List<CurrencyModel>();
+            return Crypto;
 
         }
 
