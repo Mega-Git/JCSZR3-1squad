@@ -1,0 +1,30 @@
+[2021-10-19 16:32:51.955 +02:00 INFO User profile is available. Using 'C:\Users\Carmiu\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+[2021-10-19 16:32:52.443 +02:00 INFO Application started. Press Ctrl+C to shut down.
+[2021-10-19 16:32:52.443 +02:00 INFO Hosting environment: Development
+[2021-10-19 16:32:52.443 +02:00 INFO Content root path: C:\Users\Carmiu\Desktop\PROGRAMMING\PROJEKT\1SQUAD\JCSZR3-1squad\Crypto\Crypto.Web
+[2021-10-19 16:32:52.486 +02:00 INFO Request starting HTTP/2 GET https://localhost:44324/ - -
+[2021-10-19 16:32:52.507 +02:00 INFO Executing endpoint 'Crypto.Web.Controllers.HomeController.Index (Crypto.Web)'
+[2021-10-19 16:32:52.530 +02:00 INFO Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String, System.Nullable`1[System.Decimal], System.Nullable`1[System.Decimal], System.String, System.String) on controller Crypto.Web.Controllers.HomeController (Crypto.Web).
+[2021-10-19 16:32:52.644 +02:00 INFO Executing ViewResult, running view Index.
+[2021-10-19 16:32:52.792 +02:00 INFO Executed ViewResult - view Index executed in 167.0019ms.
+[2021-10-19 16:32:52.793 +02:00 INFO Executed action Crypto.Web.Controllers.HomeController.Index (Crypto.Web) in 262.3488ms
+[2021-10-19 16:32:52.794 +02:00 INFO Executed endpoint 'Crypto.Web.Controllers.HomeController.Index (Crypto.Web)'
+[2021-10-19 16:32:52.798 +02:00 INFO Request finished HTTP/2 GET https://localhost:44324/ - - - 200 - text/html;+charset=utf-8 314.5480ms
+[2021-10-19 16:32:52.810 +02:00 INFO Request starting HTTP/2 GET https://localhost:44324/lib/bootstrap/dist/css/bootstrap.css - -
+[2021-10-19 16:32:52.810 +02:00 INFO Request starting HTTP/2 GET https://localhost:44324/lib/jquery/dist/jquery.min.js - -
+[2021-10-19 16:32:52.811 +02:00 INFO Request starting HTTP/2 GET https://localhost:44324/css/site.css - -
+[2021-10-19 16:32:52.811 +02:00 INFO Request starting HTTP/2 GET https://localhost:44324/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0 - -
+[2021-10-19 16:32:52.811 +02:00 INFO Request starting HTTP/2 GET https://localhost:44324/lib/bootstrap/dist/js/bootstrap.bundle.min.js - -
+[2021-10-19 16:32:52.816 +02:00 INFO The file /js/site.js was not modified
+[2021-10-19 16:32:52.816 +02:00 INFO The file /lib/jquery/dist/jquery.min.js was not modified
+[2021-10-19 16:32:52.816 +02:00 INFO The file /css/site.css was not modified
+[2021-10-19 16:32:52.816 +02:00 INFO The file /lib/bootstrap/dist/js/bootstrap.bundle.min.js was not modified
+[2021-10-19 16:32:52.816 +02:00 INFO The file /lib/bootstrap/dist/css/bootstrap.css was not modified
+[2021-10-19 16:32:52.817 +02:00 INFO Request finished HTTP/2 GET https://localhost:44324/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0 - - - 304 - application/javascript 5.9676ms
+[2021-10-19 16:32:52.817 +02:00 INFO Request finished HTTP/2 GET https://localhost:44324/css/site.css - - - 304 - text/css 6.3753ms
+[2021-10-19 16:32:52.818 +02:00 INFO Request finished HTTP/2 GET https://localhost:44324/lib/jquery/dist/jquery.min.js - - - 304 - application/javascript 7.1559ms
+[2021-10-19 16:32:52.818 +02:00 INFO Request finished HTTP/2 GET https://localhost:44324/lib/bootstrap/dist/js/bootstrap.bundle.min.js - - - 304 - application/javascript 6.7358ms
+[2021-10-19 16:32:52.818 +02:00 INFO Request finished HTTP/2 GET https://localhost:44324/lib/bootstrap/dist/css/bootstrap.css - - - 304 - text/css 7.3364ms
+[2021-10-19 16:32:53.073 +02:00 INFO Request starting HTTP/2 GET https://localhost:44324/favicon.ico - -
+[2021-10-19 16:32:53.073 +02:00 INFO The file /favicon.ico was not modified
+[2021-10-19 16:32:53.074 +02:00 INFO Request finished HTTP/2 GET https://localhost:44324/favicon.ico - - - 304 - image/x-icon 0.4106ms

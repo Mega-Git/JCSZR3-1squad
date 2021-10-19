@@ -22,7 +22,7 @@ namespace Crypto.Web
             //         outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
             //     .CreateLogger();
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.File("Test.txt", shared: true, 
+                .WriteTo.File("Test.csv", shared: true, 
                     outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Level:u4} {Message:lj}{NewLine}{Exception}").MinimumLevel.Information()
                 .CreateLogger();
             JsonFile.InitializeCurrienciesListFromFile();
