@@ -15,7 +15,7 @@ namespace Crypto.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private static readonly List<CurrencyModel> Newcurrencies = new();
+        private readonly CurrencyModels currencyModel;
         public const string Descending = "desc";
         public const string Name = "name";
         public const string Price = "price";
@@ -23,10 +23,11 @@ namespace Crypto.Web.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly CurrencyContext _context;
 
-        public HomeController(ILogger<HomeController> logger, CurrencyContext context)
+        public HomeController(ILogger<HomeController> logger, CurrencyContext context, CurrencyModels currency)
         {
             _logger = logger;
             _context = context;
+            currencyModel = currency;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -112,10 +113,9 @@ namespace Crypto.Web.Controllers
             model.MinPrice = minValue;
             model.MaxPrice = maxValue;
             model.CurencyName = currencyName;
-            model.CurrencyList = currencyList;
+       
             model.PriceChange = priceChange;
-            model.NewCurrencies = Newcurrencies;
-
+            
             return View(model);
         }
 
@@ -125,11 +125,15 @@ namespace Crypto.Web.Controllers
             return decimal.Parse(number, provider);
         }
 
-        public IActionResult Favorite(List<CurrencyModel> listOfFavorite)
+        public IActionResult Favorite( favoriteCurrency)
         {
-            for (int i = 0; i < NomicsProvider.GetData().ToList().Count; i++)
-            {
-                listOfFavorite.ToList()[i].Favorite = NomicsProvider.GetData()[i].Favorite ;
+            var model = NomicsProvider.GetData();
+            for (int i = 0; i < model.Count; i++)
+            {              
+                
+                    model[i].Favorite = currencyModel.CurrencyLis;
+                
+                //NomicsProvider.GetData()[i].Favorite = listOfFavorite.ToList()[i].Favorite ;
             }
 
             return RedirectToAction("Index");
