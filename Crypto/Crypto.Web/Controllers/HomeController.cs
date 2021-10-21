@@ -45,13 +45,15 @@ namespace Crypto.Web.Controllers
                 maxValue = null;
             }
 
-            var currencyList = NomicsProvider.GetData().Select(x => x).Take(20);
+            var currencyList = NomicsProvider.GetData().Select(x => x);
+            
             var model = new CurrencyListModel
 
             {
                 MinPriceIsValid = minValue < maxValue || minValue == null || maxValue == null
             };
-
+          
+            
 
             if (!string.IsNullOrEmpty(currencyName))
             {
@@ -123,11 +125,11 @@ namespace Crypto.Web.Controllers
             return decimal.Parse(number, provider);
         }
 
-        public IActionResult Favorite(IEnumerable<CurrencyModel> listOfFavorite)
+        public IActionResult Favorite(List<CurrencyModel> listOfFavorite)
         {
-            for (int i = 0; i < NomicsProvider.GetData().Count; i++)
+            for (int i = 0; i < NomicsProvider.GetData().ToList().Count; i++)
             {
-                NomicsProvider.GetData()[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
+                listOfFavorite.ToList()[i].Favorite = NomicsProvider.GetData()[i].Favorite ;
             }
 
             return RedirectToAction("Index");
