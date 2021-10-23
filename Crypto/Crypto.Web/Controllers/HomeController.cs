@@ -45,7 +45,8 @@ namespace Crypto.Web.Controllers
                 maxValue = null;
             }
 
-            var currencyList = NomicsProvider.GetData().Select(x => x).Take(20);
+            var currencyList = NomicsProvider.GetData().Select(x => x);
+
             var model = new CurrencyListModel
 
             {
@@ -125,7 +126,8 @@ namespace Crypto.Web.Controllers
 
         public IActionResult Favorite(IEnumerable<CurrencyModel> listOfFavorite)
         {
-            for (int i = 0; i < NomicsProvider.GetData().Count; i++)
+        
+            for (int i = 0; i < NomicsProvider.GetData().Count(); i++)
             {
                 NomicsProvider.GetData()[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
             }
