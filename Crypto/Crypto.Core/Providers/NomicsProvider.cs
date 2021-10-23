@@ -20,18 +20,18 @@ namespace Crypto.Core.Providers
             string URL = $"https://api.nomics.com/v1/currencies/ticker?key={key}&per-page=100&page=1&sort=rank";
             var response = client.GetAsync(URL).Result;
 
-            var IdsName = JsonConvert.DeserializeObject<List<CurrencyModel>>(response.Content.ReadAsStringAsync().Result);
+            var IdsName = JsonConvert.DeserializeObject<List<CurrencyModel>>(response.Content.ReadAsStringAsync().Result).Select(x => x.Currency);
 
-           var test = IdsName.Select(x => x.Currency).ToList().ToString();
+            var IDsAsString = string.Join(",", IdsName);
 
-            return test;
+            return IDsAsString;
         }
 
         public static List<CurrencyModel> GetData()
         {
             var client = new HttpClient();
 
-            var ids =  GetIds();
+            string ids = GetIds();
             string key = "900135c7b342d5abfe1594e8a6275295376539e3";
             string URL = $"https://api.nomics.com/v1/currencies/sparkline?key={key}&ids={ids}&start=2021-04-14T00%3A00%3A00Z";
             var response = client.GetAsync(URL).Result;
@@ -49,10 +49,7 @@ namespace Crypto.Core.Providers
 
             File.WriteAllText(path, json);
 
-
             return Crypto;
-
         }
-
     }
 }
