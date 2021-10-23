@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Crypto.Core.Models;
+using Crypto.Core.Providers;
 
 namespace Crypto.Web
 {
@@ -14,6 +15,7 @@ namespace Crypto.Web
     {
         public static void Main(string[] args)
         {
+            NomicsProvider.GetData();
             JsonFile.InitializeCurrienciesListFromFile();
             CreateHostBuilder(args).Build().Run();
         }

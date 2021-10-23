@@ -45,7 +45,7 @@ namespace Crypto.Web.Controllers
                 maxValue = null;
             }
 
-            var currencyList = NomicsProvider.GetData().Select(x => x);
+            var currencyList = JsonFile.CryptoCurrencies.Select(x => x);
 
             var model = new CurrencyListModel
 
@@ -127,9 +127,9 @@ namespace Crypto.Web.Controllers
         public IActionResult Favorite(IEnumerable<CurrencyModel> listOfFavorite)
         {
         
-            for (int i = 0; i < NomicsProvider.GetData().Count(); i++)
+            for (int i = 0; i < JsonFile.CryptoCurrencies.Count(); i++)
             {
-                NomicsProvider.GetData()[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
+                JsonFile.CryptoCurrencies[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
             }
 
             return RedirectToAction("Index");
@@ -137,7 +137,7 @@ namespace Crypto.Web.Controllers
 
         public IActionResult RemoveFavorites(IEnumerable<CurrencyModel> listOfFavorite)
         {
-            var deleteFavorite = NomicsProvider.GetData().Where(x => x.Favorite).ToList();
+            var deleteFavorite = JsonFile.CryptoCurrencies.Where(x => x.Favorite).ToList();
 
             for (int i = 0; i < deleteFavorite.Count; i++)
             {
@@ -154,7 +154,7 @@ namespace Crypto.Web.Controllers
         public IActionResult FavoriteList()
         {
             var model = new CurrencyListModel();
-            var currencyList = NomicsProvider.GetData().Where(c => c.Favorite);
+            var currencyList = JsonFile.CryptoCurrencies.Where(c => c.Favorite);
             model.CurrencyList = currencyList;
 
             var priceChange = new List<string>();
