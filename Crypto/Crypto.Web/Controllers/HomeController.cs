@@ -1,5 +1,4 @@
 ﻿using Crypto.Core.Models;
-using Crypto.Core.Providers;
 using Crypto.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +10,6 @@ using System.Globalization;
 using System.Linq;
 
 namespace Crypto.Web.Controllers
-
 {
     public class HomeController : Controller
     {
@@ -38,15 +36,12 @@ namespace Crypto.Web.Controllers
         public IActionResult Index(string sortColumn, decimal? minValue, decimal? maxValue,
             string currencyName, string sortDir = "")
         {
-
-
             if (maxValue == 0)
             {
                 maxValue = null;
             }
 
-            var currencyList = NomicsProvider.GetData().Select(x => x);
-
+            var currencyList = JsonFile.CryptoCurrencies.Select(x => x);
             var model = new CurrencyListModel
 
             {
@@ -88,22 +83,13 @@ namespace Crypto.Web.Controllers
 
             var priceChange = new List<string>();
             var lastPrice = currencyList.Select(x => x.Prices.Last()).ToList();
-            var secondLastPrice = currencyList.Select(x => x.Prices.Count() == 1 ? "0" : x.Prices[^2]).ToList();
-
+            var secondLastPrice = currencyList.Select(x => x.Prices[^2]).ToList();
 
             for (int i = 0; i < currencyList.Count(); i++)
             {
-                if ( DecimalParse(secondLastPrice[i]) == 0)
-                {
-                    priceChange.Add(DecimalParse("1").ToString("P", CultureInfo.InvariantCulture));
-                }
-                else
-                {
-                    priceChange.Add(((DecimalParse(secondLastPrice[i]) - DecimalParse(lastPrice[i])) /
-                                                    DecimalParse(secondLastPrice[i]))
-                                       .ToString("P", CultureInfo.InvariantCulture));
-                }
-
+                priceChange.Add(((DecimalParse(secondLastPrice[i]) - DecimalParse(lastPrice[i])) /
+                                 DecimalParse(secondLastPrice[i]))
+                    .ToString("P", CultureInfo.InvariantCulture));
             }
 
             model.SortColumn = sortColumn;
@@ -126,10 +112,9 @@ namespace Crypto.Web.Controllers
 
         public IActionResult Favorite(IEnumerable<CurrencyModel> listOfFavorite)
         {
-        
-            for (int i = 0; i < NomicsProvider.GetData().Count(); i++)
+            for (int i = 0; i < JsonFile.CryptoCurrencies.Count; i++)
             {
-                NomicsProvider.GetData()[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
+                JsonFile.CryptoCurrencies[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
             }
 
             return RedirectToAction("Index");
@@ -137,7 +122,7 @@ namespace Crypto.Web.Controllers
 
         public IActionResult RemoveFavorites(IEnumerable<CurrencyModel> listOfFavorite)
         {
-            var deleteFavorite = NomicsProvider.GetData().Where(x => x.Favorite).ToList();
+            var deleteFavorite = JsonFile.CryptoCurrencies.Where(x => x.Favorite).ToList();
 
             for (int i = 0; i < deleteFavorite.Count; i++)
             {
@@ -154,7 +139,7 @@ namespace Crypto.Web.Controllers
         public IActionResult FavoriteList()
         {
             var model = new CurrencyListModel();
-            var currencyList = NomicsProvider.GetData().Where(c => c.Favorite);
+            var currencyList = JsonFile.CryptoCurrencies.Where(c => c.Favorite);
             model.CurrencyList = currencyList;
 
             var priceChange = new List<string>();
@@ -175,7 +160,7 @@ namespace Crypto.Web.Controllers
 
         public IActionResult AddCurrency(string currencyName, string currencyPrice)
         {
-            var currencyList = NomicsProvider.GetData().Select(c => c.Currency);
+            var currencyList = JsonFile.CryptoCurrencies.Select(c => c.Currency);
             var myCurrency = _context.Currency;
 
             using (_context)
