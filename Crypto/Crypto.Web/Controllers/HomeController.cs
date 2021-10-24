@@ -42,6 +42,7 @@ namespace Crypto.Web.Controllers
             }
 
             var currencyList = JsonFile.CryptoCurrencies.Select(x => x);
+
             var model = new CurrencyListModel
 
             {
@@ -112,7 +113,8 @@ namespace Crypto.Web.Controllers
 
         public IActionResult Favorite(IEnumerable<CurrencyModel> listOfFavorite)
         {
-            for (int i = 0; i < JsonFile.CryptoCurrencies.Count; i++)
+        
+            for (int i = 0; i < JsonFile.CryptoCurrencies.Count(); i++)
             {
                 JsonFile.CryptoCurrencies[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
             }

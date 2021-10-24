@@ -20,6 +20,12 @@
     font-weight:bold;
 }
 
+.sticky-top {
+    background-color: #2574A9;
+    color:white;
+    text-decoration:none;
+}
+
 .sidebar-navigation {
     padding: 0;
     margin: 0;
