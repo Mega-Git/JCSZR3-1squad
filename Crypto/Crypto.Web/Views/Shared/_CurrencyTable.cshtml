@@ -8,36 +8,36 @@
 
 <div class="container">
     <form asp-action="Index" asp-route-minValue="@Model.MinPrice" asp-route-maxValue="@Model.MaxPrice" asp-route-sortColumn="@Model.SortColumn" asp-route-sortDir="@Model.SortDirection" asp-route-currencyName="@Model.CurencyName">
-        
-            <article class="card-group">
-                <header class="card-header">
-                    <h6>Filter by</h6>
-                </header>
-                <div>
-                    <div class="card-body">
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>Name</label>
-                                <input type="text" name="currencyName" value="@Model.CurencyName" class="form-control"/>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Minimum price</label>
-                                <input type="number" class="form-control" name="minValue" min="0" value="@Model.MinPrice" step="any" oninput="this.value = Math.abs(this.value)" placeholder="0">
-                                @if (!@Model.MinPriceIsValid)
-                                {
-                                    <label>Minimum value cannot be higher than maximum value.</label>
-                                }
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Maximum price</label>
-                                <input type="number" class="form-control" name="maxValue" min="0" value="@Model.MaxPrice" step="any" oninput="this.value = Math.abs(this.value)" placeholder="0">
-                            </div>
+
+        <article class="card-group">
+            <header class="card-header">
+                <h6>Filter by</h6>
+            </header>
+            <div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label>Name</label>
+                            <input type="text" name="currencyName" value="@Model.CurencyName" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Minimum price</label>
+                            <input type="number" class="form-control" name="minValue" min="0" value="@Model.MinPrice" step="any" oninput="this.value = Math.abs(this.value)" placeholder="0">
+                            @if (!@Model.MinPriceIsValid)
+                            {
+                                <label>Minimum value cannot be higher than maximum value.</label>
+                            }
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Maximum price</label>
+                            <input type="number" class="form-control" name="maxValue" min="0" value="@Model.MaxPrice" step="any" oninput="this.value = Math.abs(this.value)" placeholder="0">
                         </div>
                     </div>
-                    <input type="submit" name="PriceFilter" value="Filter"/>
                 </div>
-            </article>
-       
+                <input type="submit" name="PriceFilter" value="Filter" />
+            </div>
+        </article>
+
     </form>
 </div>
 <div class="container">
@@ -61,7 +61,7 @@
                         {
                             <i class="arrow up"></i>
                         }
-                        @Html.ActionLink("Name", "Index", "Home", new { sortColumn = @HomeController.Name, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice }, new { @class = "sticky-top text-decoration-none" })
+                        @Html.ActionLink("Name", "Index", "Home", new { sortColumn = @HomeController.Name, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice })
                     </th>
                     <th class="sticky-top ">
                         @if (Model.SortColumn == "price" && Model.SortDirection == "desc")
@@ -105,7 +105,7 @@
                             <a>Sell: </a>@(item.Prices.Last())
                         </td>
                         <td>
-                            @*@item.Prices[^2]*@
+                            @*item.Prices[^2]*@
                             <a>Sell: </a>@if (item.Prices.Length > 1)
                             {
                                 @item.Prices[^2]
