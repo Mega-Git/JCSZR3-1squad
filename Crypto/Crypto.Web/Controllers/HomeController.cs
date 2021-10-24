@@ -1,5 +1,4 @@
 ﻿using Crypto.Core.Models;
-using Crypto.Core.Providers;
 using Crypto.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +10,6 @@ using System.Globalization;
 using System.Linq;
 
 namespace Crypto.Web.Controllers
-
 {
     public class HomeController : Controller
     {
@@ -38,8 +36,6 @@ namespace Crypto.Web.Controllers
         public IActionResult Index(string sortColumn, decimal? minValue, decimal? maxValue,
             string currencyName, string sortDir = "")
         {
-
-
             if (maxValue == 0)
             {
                 maxValue = null;
@@ -88,22 +84,13 @@ namespace Crypto.Web.Controllers
 
             var priceChange = new List<string>();
             var lastPrice = currencyList.Select(x => x.Prices.Last()).ToList();
-            var secondLastPrice = currencyList.Select(x => x.Prices.Count() == 1 ? "0" : x.Prices[^2]).ToList();
-
+            var secondLastPrice = currencyList.Select(x => x.Prices[^2]).ToList();
 
             for (int i = 0; i < currencyList.Count(); i++)
             {
-                if ( DecimalParse(secondLastPrice[i]) == 0)
-                {
-                    priceChange.Add(DecimalParse("1").ToString("P", CultureInfo.InvariantCulture));
-                }
-                else
-                {
-                    priceChange.Add(((DecimalParse(secondLastPrice[i]) - DecimalParse(lastPrice[i])) /
-                                                    DecimalParse(secondLastPrice[i]))
-                                       .ToString("P", CultureInfo.InvariantCulture));
-                }
-
+                priceChange.Add(((DecimalParse(secondLastPrice[i]) - DecimalParse(lastPrice[i])) /
+                                 DecimalParse(secondLastPrice[i]))
+                    .ToString("P", CultureInfo.InvariantCulture));
             }
 
             model.SortColumn = sortColumn;
@@ -175,7 +162,7 @@ namespace Crypto.Web.Controllers
 
         public IActionResult AddCurrency(string currencyName, string currencyPrice)
         {
-            var currencyList = NomicsProvider.GetData().Select(c => c.Currency);
+            var currencyList = JsonFile.CryptoCurrencies.Select(c => c.Currency);
             var myCurrency = _context.Currency;
 
             using (_context)
