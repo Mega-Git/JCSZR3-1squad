@@ -1,0 +1,138 @@
+﻿@using Crypto.Web.Controllers
+@using System.Globalization
+@model CurrencyListModel
+
+@{ var index = 0; }
+@{ var provider = new CultureInfo("en-US"); }
+
+
+<div class="container">
+    <form asp-action="Index" asp-route-minValue="@Model.MinPrice" asp-route-maxValue="@Model.MaxPrice" asp-route-sortColumn="@Model.SortColumn" asp-route-sortDir="@Model.SortDirection" asp-route-currencyName="@Model.CurencyName">
+
+        <article class="card-group">
+            <header class="card-header">
+                <h6>Filter by</h6>
+            </header>
+            <div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label>Name</label>
+                            <input type="text" name="currencyName" value="@Model.CurencyName" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Minimum price</label>
+                            <input type="number" class="form-control" name="minValue" min="0" value="@Model.MinPrice" step="any" oninput="this.value = Math.abs(this.value)" placeholder="0">
+                            @if (!@Model.MinPriceIsValid)
+                            {
+                                <label>Minimum value cannot be higher than maximum value.</label>
+                            }
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Maximum price</label>
+                            <input type="number" class="form-control" name="maxValue" min="0" value="@Model.MaxPrice" step="any" oninput="this.value = Math.abs(this.value)" placeholder="0">
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" name="PriceFilter" value="Filter" />
+            </div>
+        </article>
+
+    </form>
+</div>
+<div class="container">
+    <form asp-action="Favorite">
+        <table class="table">
+            <thead >
+                <tr>
+                    <th class="sticky-top ">
+                        
+                        <input type="submit" name="PriceFilter" value="Add to Favorite" />
+                    </th>
+                    <th class="sticky-top ">
+                        <a>#</a>
+                    </th>
+                    <th class="sticky-top">
+                        @if (Model.SortColumn == "name" && Model.SortDirection == "desc")
+                        {
+                            <i class="arrow down"></i>
+                        }
+                        else if (Model.SortColumn == "name")
+                        {
+                            <i class="arrow up"></i>
+                        }
+                        @Html.ActionLink("Name", "Index", "Home", new { sortColumn = @HomeController.Name, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice }, new { @class = "sticky-top text-decoration-none" })
+                    </th>
+                    <th class="sticky-top ">
+                        @if (Model.SortColumn == "price" && Model.SortDirection == "desc")
+                        {
+                            <i class="arrow down"></i>
+                        }
+                        else if (Model.SortColumn == "price")
+                        {
+                            <i class="arrow up"></i>
+                        }
+                        @Html.ActionLink("Price", "Index", "Home", new { sortColumn = @HomeController.Price, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice }, new { @class = "sticky-top text-decoration-none" })
+                    </th>
+                    <th class="sticky-top ">
+                        @if (Model.SortColumn == "prev_price" && Model.SortDirection == "desc")
+                        {
+                            <i class="arrow down"></i>
+                        }
+                        else if (Model.SortColumn == "prev_price")
+                        {
+                            <i class="arrow up"></i>
+                        }
+                        @Html.ActionLink("Previous price", "Index", "Home", new { sortColumn = @HomeController.PreviousPrice, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice }, new { @class = "sticky-top text-decoration-none" })
+                    </th>
+                    <th class="sticky-top ">
+                        <a>Change</a>
+                    </th>
+                    <th class="sticky-top ">
+                        <a>Last updated</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CurrencyList)
+                {
+                    <tr>
+                        <td>@Html.CheckBoxFor(Model => Model.CurrencyList.ToList()[index].Favorite)</td>
+                        <td>@(++index)</td>
+                        <td>@item.Currency</td>
+                        <td>
+                            <a>Buy: </a>@((decimal.Parse(item.Prices.Last(), provider) * 93 / 100).ToString(provider)) <br />
+                            <a>Sell: </a>@(item.Prices.Last())
+                        </td>
+                        <td>
+                            @*@item.Prices[^2]*@
+                            <a>Sell: </a>@if (item.Prices.Length > 1)
+                            {
+                                @item.Prices[^2]
+                            }
+                            else
+                            {
+                                <span>N/A</span>
+                            }
+                        </td>
+                        <td>
+                            @if (Model.PriceChange[index - 1].Contains("-"))
+                            {
+                                <div class="TriangleDown"></div>
+                                <label class="ChangeNegative">@Model.PriceChange[index - 1]</label>
+                            }
+                            else
+                            {
+                                <div class="TriangleUp"></div>
+                                <label class="ChangePositive">+@Model.PriceChange[index - 1]</label>
+                            }
+                        </td>
+                        <td>@DateTime.Parse(item.Timestamps.Last())</td>
+                    </tr>
+                    @Html.HiddenFor(m => m.CurrencyList)
+                }
+            </tbody>
+        </table>
+        
+    </form>
+</div>

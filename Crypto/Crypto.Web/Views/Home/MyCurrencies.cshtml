@@ -1,0 +1,83 @@
+﻿@using Crypto.Web.Controllers
+@using System.Globalization
+@model List<NewCurrencyModel>
+
+@{ var provider = new CultureInfo("en-US"); }
+
+@{ var i = 0; }
+
+
+<div class="container">
+    <form asp-action="AddCurrency">
+        <div class="form-group">
+            <label>Name</label>
+            <input name="currencyName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Price</label>
+            <input type="number" name="currencyPrice" class="form-control" step="any" oninput="this.value = Math.abs(this.value)" placeholder="0"/>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
+
+   
+
+    <form asp-action="AddPrice">
+
+
+        <select name="currencyName" class="form-select" aria-label="Default select example">
+            <option selected value="">Select Currency to add new price</option>
+            @foreach (var item in Model)
+            {
+                <option value="@item.Name">@item.Name</option>
+
+            }
+
+        </select>
+        <div class="form-group">
+            <label>New Price </label>
+            <input name="currencyPrice" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
+    <form asp-action="CurrencyDelete">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="sticky-top">
+                        <p>#</p>
+                    </th>
+                    <th class="sticky-top">
+                        <p>Name</p>
+                    </th>
+                    <th class="sticky-top">
+                        <p>Price</p>
+                    </th>
+                    <th class="sticky-top">
+                        <p>Time</p>
+                    </th>
+                    <th class="sticky-top">
+                        <p>Delete from Database </p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@(++i)</td>
+                        <td>@item.Name</td>
+                        <td>@item.Prices.Last().Price</td>
+                        <td>@item.Prices.Last().Timestamp</td>
+                        <td>@Html.ActionLink("Delete", "CurrencyDelete", new { currencyDelete = item.Name })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
+
+</div>

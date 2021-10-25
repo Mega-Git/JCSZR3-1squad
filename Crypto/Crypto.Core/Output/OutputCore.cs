@@ -18,16 +18,18 @@ public class OutputCore
 		    return $"{currencyName} {price}";
         }
     }
-	public static void DisplayAllCurrencies()
+	public static string DisplayAllCurrencies()
     {
-        JsonFile.CryptoCurrencies.ForEach(x => Console.WriteLine($"{x.Currency} {x.Prices[0]}"));
+        List<string> currencyList = new List<string>();
+        JsonFile.CryptoCurrencies.ForEach(x => currencyList.Add($"{x.Currency} {x.Prices[0]}"));
+        return string.Join("\n", currencyList);
     }
-	public static void DisplayValueFromNameInTimePeriod(string name)
+	public static string DisplayValueFromNameInTimePeriod(string name)
     {
         var currencyName = Search.SearchByName(name);
         if (currencyName == "No match")
         {
-            Console.WriteLine(currencyName);
+            return currencyName;
         }
         else
         {
@@ -43,10 +45,11 @@ public class OutputCore
             var overlappingDates = currencyDatesToDateTime.Select(x => x).Intersect(userDates.Select(y => y)).ToList();
             if (overlappingDates.Count == 0)
             {
-                Console.WriteLine("No matches");
+                return "No matches";
             }
             else
             {
+                List<string> resultList = new List<string>();
                 var datesWithValues = JsonFile.CryptoCurrencies.Where(x => x.Currency.Contains(currencyName)).Select(x => new {x.Prices, x.Timestamps}).ToList();
                 var datesWithValuesTimestamps = datesWithValues.SelectMany(x => x.Timestamps).ToList();
                 var datesWithValuesTimestampsToDateTime = datesWithValuesTimestamps.Select(x => DateTime.Parse(x)).ToList();
@@ -57,11 +60,13 @@ public class OutputCore
                         var dateFind = datesWithValuesTimestampsToDateTime[o].Equals(overlappingDates[i]);
                         if (dateFind)
                         {
-                            Console.WriteLine($"Time: {datesWithValues[0].Timestamps[o]} Price: {datesWithValues[0].Prices[o]} ");
+                            resultList.Add($"Time: {datesWithValues[0].Timestamps[o]} Price: {datesWithValues[0].Prices[o]} ");
                             break;
                         }
                     }
                 }
+
+                return string.Join("\n", resultList);
             }
         }
     }
@@ -173,7 +178,7 @@ public class OutputCore
     }
 	public static void DisplayAllCurrenciesButton()
     {
-        Console.WriteLine("All currencies: ");
+        //Console.WriteLine("All currencies: ");
 		DisplayAllCurrencies();
     }
     public static void DisplayValueFromNameInTimePeriodButton()
@@ -182,7 +187,7 @@ public class OutputCore
     }
     public static void DisplayCurrencyWithHighestValueLossButton()
     {
-        Console.WriteLine("Currency with highest value loss: ");
+        //Console.WriteLine("Currency with highest value loss: ");
         DisplayCurrencyWithHighestValueLoss();
     }
 }
