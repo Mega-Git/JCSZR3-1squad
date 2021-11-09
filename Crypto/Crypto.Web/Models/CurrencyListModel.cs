@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Crypto.Core.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using PagedList;
+using X.PagedList;
 
 namespace Crypto.Web.Models
 {

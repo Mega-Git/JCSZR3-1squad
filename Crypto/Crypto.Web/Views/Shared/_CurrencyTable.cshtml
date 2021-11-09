@@ -1,5 +1,7 @@
 ﻿@using Crypto.Web.Controllers
 @using System.Globalization
+@using X.PagedList
+@using X.PagedList.Mvc.Core
 @model CurrencyListModel
 
 @{ var index = 0; }
@@ -35,6 +37,7 @@
                     </div>
                     <div>Page size @Html.DropDownList("PageSize", new SelectList(new Dictionary<string, int> { { "10", 10 }, { "20", 20 }, { "100", 100 } }, "Key", "Value", Model.PagedList.Count))</div>
                     <div>Page @(Model.PagedList.PageCount < Model.PagedList.PageNumber ? 0 : Model.PagedList.PageNumber) of @Model.PagedList.PageCount</div>
+                    @Html.PagedListPager(Model.PagedList, page => Url.Action("Index", "Home", new {page}))
                 </div>
                 <input type="submit" name="PriceFilter" value="Filter" />
             </div>

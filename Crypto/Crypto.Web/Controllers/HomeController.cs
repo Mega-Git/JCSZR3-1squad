@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using PagedList;
+using X.PagedList;
 
 namespace Crypto.Web.Controllers
 
