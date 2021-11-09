@@ -35,9 +35,9 @@
                             <input type="number" class="form-control" name="maxValue" min="0" value="@Model.MaxPrice" step="any" oninput="this.value = Math.abs(this.value)" placeholder="0">
                         </div>
                     </div>
-                    <div>Page size @Html.DropDownList("PageSize", new SelectList(new Dictionary<string, int> { { "10", 10 }, { "20", 20 }, { "100", 100 } }, "Key", "Value", Model.PagedList.Count))</div>
+                    <div>Page size @Html.DropDownList("PageSize", new SelectList(new Dictionary<string, int> { { "10", 10 }, { "20", 20 }, { "50", 50 }, { "100", 100 } }, "Key", "Value", Model.PagedList.Count))</div>
                     <div>Page @(Model.PagedList.PageCount < Model.PagedList.PageNumber ? 0 : Model.PagedList.PageNumber) of @Model.PagedList.PageCount</div>
-                    @Html.PagedListPager(Model.PagedList, page => Url.Action("Index", "Home", new {page}))
+                    @Html.PagedListPager(Model.PagedList, page => Url.Action("Index", "Home", new {page, sortColumn = Model.SortColumn, sortDir = Model.SortDirection, minValue = Model.MinPrice, maxValue = Model.MaxPrice, pageSize = Model.PageSize }))
                 </div>
                 <input type="submit" name="PriceFilter" value="Filter" />
             </div>
@@ -66,7 +66,7 @@
                         {
                             <i class="arrow up"></i>
                         }
-                        @Html.ActionLink("Name", "Index", "Home", new { sortColumn = @HomeController.Name, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice })
+                        @Html.ActionLink("Name", "Index", "Home", new { sortColumn = @HomeController.Name, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice, pageSize = Model.PageSize })
                     </th>
                     <th class="sticky-top ">
                         @if (Model.SortColumn == "price" && Model.SortDirection == "desc")
@@ -77,7 +77,7 @@
                         {
                             <i class="arrow up"></i>
                         }
-                        @Html.ActionLink("Price", "Index", "Home", new { sortColumn = @HomeController.Price, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice }, new { @class = "sticky-top text-decoration-none" })
+                        @Html.ActionLink("Price", "Index", "Home", new { sortColumn = @HomeController.Price, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice, pageSize = Model.PageSize }, new { @class = "sticky-top text-decoration-none" })
                     </th>
                     <th class="sticky-top ">
                         @if (Model.SortColumn == "prev_price" && Model.SortDirection == "desc")
@@ -88,7 +88,7 @@
                         {
                             <i class="arrow up"></i>
                         }
-                        @Html.ActionLink("Previous price", "Index", "Home", new { sortColumn = @HomeController.PreviousPrice, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice }, new { @class = "sticky-top text-decoration-none" })
+                        @Html.ActionLink("Previous price", "Index", "Home", new { sortColumn = @HomeController.PreviousPrice, sortDir = Model.SortDirection == string.Empty ? @HomeController.Descending : string.Empty, minValue = Model.MinPrice, maxValue = Model.MaxPrice, pageSize = Model.PageSize }, new { @class = "sticky-top text-decoration-none" })
                     </th>
                     <th class="sticky-top ">
                         <a>Change</a>
