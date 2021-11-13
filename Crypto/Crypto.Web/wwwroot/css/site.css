@@ -17,13 +17,13 @@
     padding: 10px 15px 10px 30px;
     font-size: 20px;
     background-color: #2574A9;
-    font-weight:bold;
+    font-weight: bold;
 }
 
 .sticky-top {
     background-color: #2574A9;
-    color:white;
-    text-decoration:none;
+    color: white;
+    text-decoration: none;
 }
 
 .sidebar-navigation {
@@ -148,6 +148,24 @@
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
 }
+
+.footer {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #2574A9;
+    color: white;
+}
+
+    .footer a {
+        text-align: center;
+        color: white;
+    }
+
+    .footer ul {
+        justify-content: center;
+    }
 
 /*@media screen and (max-width: 700px) {
     .sidebar {
