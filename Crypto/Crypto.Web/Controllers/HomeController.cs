@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using X.PagedList;
 
 namespace Crypto.Web.Controllers
 
@@ -35,10 +37,15 @@ namespace Crypto.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Index(string sortColumn, decimal? minValue, decimal? maxValue,
+        public IActionResult Index(string sortColumn, int? page, int pageSize, decimal? minValue, decimal? maxValue,
             string currencyName, string sortDir = "")
         {
-
+            if (pageSize == 0)
+            {
+                pageSize = 10;
+            }
+            var pSize = pageSize;
+            var pageNumber = page ?? 1;
 
             if (maxValue == 0)
             {
@@ -111,7 +118,10 @@ namespace Crypto.Web.Controllers
             model.MinPrice = minValue;
             model.MaxPrice = maxValue;
             model.CurencyName = currencyName;
-            model.CurrencyList = currencyList;
+            model.PageSize = pSize;
+            model.PageSizeList = new SelectList(new int[] {10, 20, 100});
+            model.CurrencyList = currencyList.ToPagedList(pageNumber, pSize);
+            model.PagedList = (PagedList<CurrencyModel>)currencyList.ToPagedList(pageNumber, pSize);
             model.PriceChange = priceChange;
             model.NewCurrencies = Newcurrencies;
 
