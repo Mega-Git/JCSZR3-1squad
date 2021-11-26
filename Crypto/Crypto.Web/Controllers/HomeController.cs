@@ -85,11 +85,11 @@ namespace Crypto.Web.Controllers
                     ? currencyList.OrderByDescending(x => x.Currency)
                     : currencyList.OrderBy(x => x.Currency),
                 Price => sortDir == Descending
-                    ? currencyList.OrderByDescending(x => x.Prices.Last())
-                    : currencyList.OrderBy(x => x.Prices.Last()),
+                    ? currencyList.OrderByDescending(x => DecimalParse(x.Prices.Last()))
+                    : currencyList.OrderBy(x => DecimalParse(x.Prices.Last())),
                 PreviousPrice => sortDir == Descending
-                    ? currencyList.OrderByDescending(x => x.Prices.Last())
-                    : currencyList.OrderBy(x => x.Prices.Last()),
+                    ? currencyList.OrderByDescending(x => DecimalParse(x.Prices.Last()))
+                    : currencyList.OrderBy(x => DecimalParse(x.Prices.Last())),
                 _ => currencyList.OrderBy(x => x.Currency),
             };
 
