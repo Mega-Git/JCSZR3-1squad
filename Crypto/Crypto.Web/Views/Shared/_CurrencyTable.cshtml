@@ -49,7 +49,7 @@
             <thead >
             <tr>
                 <th class="sticky-top ">
-                    <input type="submit" name="PriceFilter" value="Add to Favorite"/>
+                    <input type="submit" name="PriceFilter" value="Favorite"/>
                 </th>
                 <th class="sticky-top ">
                     <a>#</a>
@@ -99,7 +99,7 @@
             @foreach (var item in Model.CurrencyList)
             {
                 <tr>
-                    <td>@Html.CheckBoxFor(Model => Model.CurrencyList.ToList()[index].Favorite)</td>
+                    <td><div class="checkbox">@Html.CheckBoxFor(Model => Model.CurrencyList.ToList()[index].Favorite)</div></td>
                     <td>@(++index)</td>
                     <td>@item.Currency</td>
                     <td>
