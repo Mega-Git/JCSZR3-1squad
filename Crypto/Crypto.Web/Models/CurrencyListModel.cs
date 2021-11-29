@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Crypto.Core.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using X.PagedList;
 
 namespace Crypto.Web.Models
 {
@@ -18,5 +20,9 @@ namespace Crypto.Web.Models
         public List<string> PriceChange { get; set; }
 
         public IEnumerable<CurrencyModel> NewCurrencies { get; set; }
+
+        public PagedList<CurrencyModel> PagedList { get; set; }
+        public int PageSize { get; set; }
+        public SelectList PageSizeList { get; set; }
     }
 }

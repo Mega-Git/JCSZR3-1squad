@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using X.PagedList;
 
 namespace Crypto.Web.Controllers
 
@@ -35,10 +37,15 @@ namespace Crypto.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Index(string sortColumn, decimal? minValue, decimal? maxValue,
+        public IActionResult Index(string sortColumn, int? page, int pageSize, decimal? minValue, decimal? maxValue,
             string currencyName, string sortDir = "")
         {
-
+            if (pageSize == 0)
+            {
+                pageSize = 10;
+            }
+            var pSize = pageSize;
+            var pageNumber = page ?? 1;
 
             if (maxValue == 0)
             {
@@ -78,11 +85,11 @@ namespace Crypto.Web.Controllers
                     ? currencyList.OrderByDescending(x => x.Currency)
                     : currencyList.OrderBy(x => x.Currency),
                 Price => sortDir == Descending
-                    ? currencyList.OrderByDescending(x => x.Prices.Last())
-                    : currencyList.OrderBy(x => x.Prices.Last()),
+                    ? currencyList.OrderByDescending(x => DecimalParse(x.Prices.Last()))
+                    : currencyList.OrderBy(x => DecimalParse(x.Prices.Last())),
                 PreviousPrice => sortDir == Descending
-                    ? currencyList.OrderByDescending(x => x.Prices.Last())
-                    : currencyList.OrderBy(x => x.Prices.Last()),
+                    ? currencyList.OrderByDescending(x => DecimalParse(x.Prices.Last()))
+                    : currencyList.OrderBy(x => DecimalParse(x.Prices.Last())),
                 _ => currencyList.OrderBy(x => x.Currency),
             };
 
@@ -111,7 +118,10 @@ namespace Crypto.Web.Controllers
             model.MinPrice = minValue;
             model.MaxPrice = maxValue;
             model.CurencyName = currencyName;
-            model.CurrencyList = currencyList;
+            model.PageSize = pSize;
+            model.PageSizeList = new SelectList(new int[] {10, 20, 100});
+            model.CurrencyList = currencyList.ToPagedList(pageNumber, pSize);
+            model.PagedList = (PagedList<CurrencyModel>)currencyList.ToPagedList(pageNumber, pSize);
             model.PriceChange = priceChange;
             model.NewCurrencies = Newcurrencies;
 
@@ -129,7 +139,7 @@ namespace Crypto.Web.Controllers
         
             for (int i = 0; i < JsonFile.CryptoCurrencies.Count(); i++)
             {
-                JsonFile.CryptoCurrencies[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
+                NomicsProvider.GetData()[i].Favorite = listOfFavorite.ToArray()[i].Favorite;
             }
 
             return RedirectToAction("Index");
@@ -137,7 +147,7 @@ namespace Crypto.Web.Controllers
 
         public IActionResult RemoveFavorites(IEnumerable<CurrencyModel> listOfFavorite)
         {
-            var deleteFavorite = JsonFile.CryptoCurrencies.Where(x => x.Favorite).ToList();
+            var deleteFavorite = NomicsProvider.GetData().Where(x => x.Favorite).ToList();
 
             for (int i = 0; i < deleteFavorite.Count; i++)
             {
@@ -154,7 +164,7 @@ namespace Crypto.Web.Controllers
         public IActionResult FavoriteList()
         {
             var model = new CurrencyListModel();
-            var currencyList = JsonFile.CryptoCurrencies.Where(c => c.Favorite);
+            var currencyList = NomicsProvider.GetData().Where(c => c.Favorite);
             model.CurrencyList = currencyList;
 
             var priceChange = new List<string>();
