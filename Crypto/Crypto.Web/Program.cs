@@ -15,7 +15,7 @@ namespace Crypto.Web
     {
         public static void Main(string[] args)
         {
-            NomicsProvider.GetData();
+            //NomicsProvider.GetData();
             JsonFile.InitializeCurrienciesListFromFile();
             CreateHostBuilder(args).Build().Run();
         }

@@ -24,6 +24,7 @@ namespace Crypto.Web.Controllers
         public const string PreviousPrice = "prev_price";
         private readonly ILogger<HomeController> _logger;
         private readonly CurrencyContext _context;
+        public IEnumerable<CurrencyModel> ListOfCurrencies = JsonFile.CryptoCurrencies;
 
         public HomeController(ILogger<HomeController> logger, CurrencyContext context)
         {
@@ -52,7 +53,7 @@ namespace Crypto.Web.Controllers
                 maxValue = null;
             }
 
-            var currencyList = JsonFile.CryptoCurrencies.Select(x => x);
+            var currencyList = ListOfCurrencies;
 
             var model = new CurrencyListModel
 
@@ -164,7 +165,7 @@ namespace Crypto.Web.Controllers
         public IActionResult FavoriteList()
         {
             var model = new CurrencyListModel();
-            var currencyList = NomicsProvider.GetData().Where(c => c.Favorite);
+            var currencyList = ListOfCurrencies.Where(c => c.Favorite);
             model.CurrencyList = currencyList;
 
             var priceChange = new List<string>();
@@ -185,7 +186,7 @@ namespace Crypto.Web.Controllers
 
         public IActionResult AddCurrency(string currencyName, string currencyPrice)
         {
-            var currencyList = NomicsProvider.GetData().Select(c => c.Currency);
+            var currencyList = ListOfCurrencies.Select(c => c.Currency);
             var myCurrency = _context.Currency;
 
             using (_context)
